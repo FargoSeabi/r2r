@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Roots to Realities — Explore Villages & Marketplace</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ["Inter", "Segoe UI", "system-ui", "sans-serif"] },
+          colors: {
+            brand: {
+              50: "#fff3ed",
+              100: "#ffe6d9",
+              200: "#fdc9b4",
+              300: "#fba886",
+              400: "#f07e59",
+              500: "#e2623f", /* primary */
+              600: "#cf5536",
+              700: "#b7442b",
+              800: "#953826",
+              900: "#7a2f21"
+            }
+          },
+          boxShadow: {
+            card: "0 10px 24px rgba(2, 6, 23, .06)",
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    .chip {
+      @apply inline-flex items-center px-4 py-2 rounded-full text-sm font-medium shadow-sm border border-slate-200;
+    }
+
+    .chip-active {
+      @apply bg-brand-500 text-white border-brand-500;
+    }
+
+    .chip-ghost {
+      @apply bg-white text-slate-700 hover:bg-slate-50;
+    }
+
+    .pill {
+      @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold bg-white/95 backdrop-blur border border-slate-200 shadow;
+    }
+
+    .badge {
+      @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-900/70 text-white;
+    }
+
+    .fav {
+      @apply grid place-items-center h-9 w-9 rounded-full bg-white/95 border border-slate-200 shadow;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 font-sans">
+  <!-- Top Nav -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3">
+        <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-100 ring-1 ring-brand-200">
+          <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5 text-brand-600">
+            <path d="M12 2a10 10 0 100 20 10 10 0 000-20Zm0 0v20M2 12h20" stroke="currentColor" stroke-width="1.5" />
+          </svg>
+        </span>
+        <span class="text-lg font-extrabold tracking-tight">Roots to Realities</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-8 text-sm">
+        <a href="#villages" class="text-brand-600 font-semibold">Explore Villages</a>
+        <a href="#marketplace" class="hover:text-brand-600">Marketplace</a>
+        <a href="#skills" class="hover:text-brand-600">Digital Skills</a>
+        <a href="#impact" class="hover:text-brand-600">Our Impact</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <a href="#"
+          class="hidden sm:inline-flex px-4 py-2 rounded-full border border-brand-200 text-brand-700 hover:bg-brand-50">Login</a>
+        <a href="#marketplace"
+          class="inline-flex px-4 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-white shadow">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Explore Villages Hero + Filters + Cards -->
+  <section id="villages" class="py-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h1 class="text-4xl sm:text-5xl font-black tracking-tight">Explore <span class="text-brand-600">Virtual
+            Villages</span></h1>
+        <p class="mt-4 text-lg text-slate-600 max-w-3xl mx-auto">Step into authentic rural communities through immersive
+          360° experiences and discover their unique stories, traditions, and crafts.</p>
+      </div>
+
+      <!-- Filter chips -->
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <button class="chip chip-active">All Villages</button>
+        <button class="chip chip-ghost">Crafts & Arts</button>
+        <button class="chip chip-ghost">Music & Dance</button>
+        <button class="chip chip-ghost">Food & Culture</button>
+        <button class="chip chip-ghost">Rituals & Festivals</button>
+      </div>
+
+      <!-- Card Grid -->
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- Card component -->
+        <article class="bg-white rounded-2xl overflow-hidden shadow-card ring-1 ring-slate-200">
+          <div class="relative h-48">
+            <img class="absolute inset-0 h-full w-full object-cover"
+              src="https://c7.alamy.com/comp/CNK0AA/zulu-village-in-lesedi-african-cultural-village-broederstroom-johannesburg-CNK0AA.jpg"
+              alt="Zulu Warrior" />
+
+            <button class="fav absolute right-4 top-4" aria-label="Save">❤</button>
+            <button class="pill absolute left-4 bottom-4"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none">
+                <polygon points="8,5 19,12 8,19" fill="currentColor" />
+              </svg>Start 360° Tour</button>
+          </div>
+          <div class="p-5">
+            <h3 class="text-xl font-semibold">Zulu Traditional Village – KwaZulu‑Natal</h3>
+            <p class="mt-2 text-slate-600">Experience the proud warrior culture of the Zulu nation—spear throwing,
+              isicathamiya singing, and homestead life.</p>
+            <div class="mt-4 flex items-center gap-5 text-sm text-slate-600">
+              <span class="inline-flex items-center gap-1"><span>★</span> 4.9</span>
+              <span>• 3847 visits</span>
+              <span class="text-brand-600">⏱ 90 min experience</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="bg-white rounded-2xl overflow-hidden shadow-card ring-1 ring-slate-200">
+          <div class="relative h-48">
+            <img class="absolute inset-0 h-full w-full object-cover"
+              src="https://c8.alamy.com/comp/DGYP5F/ndebele-women-and-child-at-a-ndebele-village-in-botshabelo-near-middelburg-DGYP5F.jpg"
+              alt="Mountain village" />
+
+            <button class="fav absolute right-4 top-4" aria-label="Save">❤</button>
+            <button class="pill absolute left-4 bottom-4"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none">
+                <polygon points="8,5 19,12 8,19" fill="currentColor" />
+              </svg>Start 360° Tour</button>
+          </div>
+          <div class="p-5">
+            <h3 class="text-xl font-semibold">Ndebele Art Village – Mpumalanga</h3>
+            <p class="mt-2 text-slate-600">Immerse yourself in the vibrant geometric art tradition of the Ndebele—house
+              painting, beadwork, and symbolism.</p>
+            <div class="mt-4 flex items-center gap-5 text-sm text-slate-600">
+              <span class="inline-flex items-center gap-1"><span>★</span> 4.9</span>
+              <span>• 3284 visits</span>
+              <span class="text-brand-600">⏱ 85 min experience</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="bg-white rounded-2xl overflow-hidden shadow-card ring-1 ring-slate-200">
+          <div class="relative h-48">
+            <img class="absolute inset-0 h-full w-full object-cover"
+              src="https://www.krugerpark.co.za/images/magubane-xhosa042-786x516.jpg" alt="Mountain village" />
+
+            <button class="fav absolute right-4 top-4" aria-label="Save">❤</button>
+            <button class="pill absolute left-4 bottom-4" data-vr-id="3"
+              data-vr-title="Xhosa Cultural Village – Eastern Cape"
+              data-vr-desc="Discover the rich heritage of the Red Blanket people—initiation rites, storytelling, and song."
+              data-vr-youtube="jt4jtO4gKsM">
+              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none">
+                <polygon points="8,5 19,12 8,19" fill="currentColor" />
+              </svg>
+              Start 360° Tour
+            </button>
+
+          </div>
+          <div class="p-5">
+            <h3 class="text-xl font-semibold">Xhosa Cultural Village – Eastern Cape</h3>
+            <p class="mt-2 text-slate-600">Discover the rich heritage of the Red Blanket people—initiation rites,
+              storytelling, and song.</p>
+            <div class="mt-4 flex items-center gap-5 text-sm text-slate-600">
+              <span class="inline-flex items-center gap-1"><span>★</span> 4.8</span>
+              <span>• 2934 visits</span>
+              <span class="text-brand-600">⏱ 75 min experience</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="bg-white rounded-2xl overflow-hidden shadow-card ring-1 ring-slate-200">
+          <div class="relative h-48">
+            <img class="absolute inset-0 h-full w-full object-cover"
+              src="https://c7.alamy.com/comp/2AK3R2N/this-photo-shows-the-venda-at-a-traditional-dance-festival-in-the-vendaland-in-the-limpopo-province-south-africa-undated-picture-usage-worldwide-2AK3R2N.jpg"
+              alt="Pinned world map" />
+
+            <button class="fav absolute right-4 top-4" aria-label="Save">❤</button>
+            <button class="pill absolute left-4 bottom-4"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none">
+                <polygon points="8,5 19,12 8,19" fill="currentColor" />
+              </svg>Start 360° Tour</button>
+          </div>
+          <div class="p-5">
+            <h3 class="text-xl font-semibold">Venda Sacred Forest Village – Limpopo</h3>
+            <p class="mt-2 text-slate-600">Experience mystical forest traditions—drumming, trance dance, and sacred
+              folklore.</p>
+            <div class="mt-4 flex items-center gap-5 text-sm text-slate-600">
+              <span class="inline-flex items-center gap-1"><span>★</span> 4.8</span>
+              <span>• 2567 visits</span>
+              <span class="text-brand-600">⏱ 95 min experience</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="bg-white rounded-2xl overflow-hidden shadow-card ring-1 ring-slate-200">
+          <div class="relative h-48">
+            <img class="absolute inset-0 h-full w-full object-cover"
+              src="https://media.gettyimages.com/id/1073174970/photo/people-in-their-traditional-tswana-outfits-sing-and-dance-in-the-streets-during-the-indoni-sa.jpg?s=612x612&w=gi&k=20&c=81Yno93pZGCzH-t4EyZ00NQ6mepXMQGZ2RcTR661YO4="
+              alt="Pinned world map" />
+            <button class="fav absolute right-4 top-4" aria-label="Save">❤</button>
+            <button class="pill absolute left-4 bottom-4"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none">
+                <polygon points="8,5 19,12 8,19" fill="currentColor" />
+              </svg>Start 360° Tour</button>
+          </div>
+
+          <div class="p-5">
+            <h3 class="text-xl font-semibold">Tswana Heritage Village – North West</h3>
+            <p class="mt-2 text-slate-600">Visit traditional Tswana homesteads and learn pottery, basketry, and kgotla
+              customs.</p>
+            <div class="mt-4 flex items-center gap-5 text-sm text-slate-600">
+              <span class="inline-flex items-center gap-1"><span>★</span> 4.7</span>
+              <span>• 2156 visits</span>
+              <span class="text-brand-600">⏱ 80 min experience</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="bg-white rounded-2xl overflow-hidden shadow-card ring-1 ring-slate-200">
+          <div class="relative h-48">
+            <img class="absolute inset-0 h-full w-full object-cover"
+              src="https://live.southafrica.net/media/280453/mensen-in-klederdracht-voor-huisje-in-basotho-cultural-village.jpg?anchor=center&mode=crop&quality=100&width=1920&height=810&bgcolor=white&rnd=132617540950000000"
+              alt="Lake and mountains" />
+
+            <button class="fav absolute right-4 top-4" aria-label="Save">❤</button>
+            <button class="pill absolute left-4 bottom-4"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none">
+                <polygon points="8,5 19,12 8,19" fill="currentColor" />
+              </svg>Start 360° Tour</button>
+          </div>
+          <div class="p-5">
+            <h3 class="text-xl font-semibold">Sotho Mountain Village – Free State</h3>
+            <p class="mt-2 text-slate-600">Ride through the Maloti foothills, sample local cuisine, and explore blanket
+              symbolism.</p>
+            <div class="mt-4 flex items-center gap-5 text-sm text-slate-600">
+              <span class="inline-flex items-center gap-1"><span>★</span> 4.6</span>
+              <span>• 1743 visits</span>
+              <span class="text-brand-600">⏱ 70 min experience</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Marketplace Section (hero + filters + cards) -->
+  <section id="marketplace" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-4xl font-black">Global <span class="text-brand-600">Marketplace</span></h2>
+        <p class="mt-3 text-slate-600 max-w-3xl mx-auto">Connect directly with rural entrepreneurs and artisans.
+          Purchase authentic products and experiences while supporting sustainable community development.</p>
+      </div>
+
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <button class="chip chip-active">All Products</button>
+        <button class="chip chip-ghost">Handcrafts</button>
+        <button class="chip chip-ghost">Food & Spices</button>
+        <button class="chip chip-ghost">Textiles</button>
+        <button class="chip chip-ghost">Experiences</button>
+        <button class="chip chip-ghost">Art & Décor</button>
+      </div>
+
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <!-- Product card (handcraft) -->
+        <div class="bg-white rounded-2xl overflow-hidden ring-1 ring-slate-200 shadow-card">
+          <div class="relative h-44 bg-slate-900/90"></div>
+          <div class="p-5">
+            <div class="flex items-center gap-3">
+              <img class="h-9 w-9 rounded-full" src="https://i.pravatar.cc/72?img=14" alt="Seller" />
+              <div class="text-sm">
+                <div class="font-semibold">Mandla Xhosa</div>
+                <div class="text-slate-500">Eastern Cape Province, South Africa</div>
+              </div>
+            </div>
+            <h3 class="mt-3 text-lg font-semibold">Xhosa Ceremonial Carved Staff</h3>
+            <p class="mt-1 text-slate-600 text-sm">Traditional hand‑carved wooden ceremonial staff used in Xhosa
+              rituals.</p>
+            <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+              <span class="px-2 py-1 rounded-full bg-slate-100">wood‑carving</span>
+              <span class="px-2 py-1 rounded-full bg-slate-100">ceremonial</span>
+              <span class="px-2 py-1 rounded-full bg-slate-100">traditional</span>
+            </div>
+            <div class="mt-4 flex items-center justify-between">
+              <div class="font-bold text-brand-600">$180.00</div>
+              <button
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-white text-sm"><span>🛒</span>
+                Add to Cart</button>
+            </div>
+            <div class="mt-2 text-emerald-600 text-sm">6 available</div>
+          </div>
+        </div>
+
+        <!-- Product card (experience) -->
+        <div class="bg-white rounded-2xl overflow-hidden ring-1 ring-slate-200 shadow-card">
+          <div class="relative h-44">
+            <img class="absolute inset-0 h-full w-full object-cover"
+              src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop"
+              alt="Sunset" />
+            <span class="badge absolute left-4 top-4 bg-purple-600">Experience</span>
+            <button class="fav absolute right-4 top-4">❤</button>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-3">
+              <img class="h-9 w-9 rounded-full" src="https://i.pravatar.cc/72?img=18" alt="Seller" />
+              <div class="text-sm">
+                <div class="font-semibold">Mandla Xhosa</div>
+                <div class="text-slate-500">Eastern Cape Province, South Africa</div>
+              </div>
+            </div>
+            <h3 class="mt-3 text-lg font-semibold">Traditional South African Food Experience</h3>
+            <p class="mt-1 text-slate-600 text-sm">Prepare and enjoy authentic dishes—pap, chakalaka, and bobotie.</p>
+            <div class="mt-3 flex flex-wrap gap-2 text-[11px]"><span
+                class="px-2 py-1 rounded-full bg-slate-100">food</span><span
+                class="px-2 py-1 rounded-full bg-slate-100">cooking</span><span
+                class="px-2 py-1 rounded-full bg-slate-100">bobotie</span></div>
+            <div class="mt-4 flex items-center justify-between">
+              <div class="font-bold text-brand-600">$195.00</div>
+              <button
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-white text-sm">Book
+                Now</button>
+            </div>
+            <div class="mt-2 text-emerald-600 text-sm">10 available · 300 min</div>
+          </div>
+        </div>
+
+        <!-- Product card (tea) -->
+        <div class="bg-white rounded-2xl overflow-hidden ring-1 ring-slate-200 shadow-card">
+          <div class="relative h-44 bg-slate-900/90"></div>
+          <div class="p-5">
+            <div class="flex items-center gap-3">
+              <img class="h-9 w-9 rounded-full" src="https://i.pravatar.cc/72?img=32" alt="Seller" />
+              <div class="text-sm">
+                <div class="font-semibold">Esther Ndebele</div>
+                <div class="text-slate-500">Mpumalanga, South Africa</div>
+              </div>
+            </div>
+            <h3 class="mt-3 text-lg font-semibold">Rooibos & Honeybush Tea Collection</h3>
+            <p class="mt-1 text-slate-600 text-sm">Premium collection of authentic South African rooibos and honeybush.
+            </p>
+            <div class="mt-3 flex flex-wrap gap-2 text-[11px]"><span
+                class="px-2 py-1 rounded-full bg-slate-100">tea</span><span
+                class="px-2 py-1 rounded-full bg-slate-100">rooibos</span><span
+                class="px-2 py-1 rounded-full bg-slate-100">honeybush</span></div>
+            <div class="mt-4 flex items-center justify-between">
+              <div class="font-bold text-brand-600">$85.00</div>
+              <button
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-white text-sm"><span>🛒</span>
+                Add to Cart</button>
+            </div>
+            <div class="mt-2 text-emerald-600 text-sm">25 available</div>
+          </div>
+        </div>
+
+        <!-- Product card (biltong) -->
+        <div class="bg-white rounded-2xl overflow-hidden ring-1 ring-slate-200 shadow-card">
+          <div class="relative h-44">
+            <img class="absolute inset-0 h-full w-full object-cover"
+              src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1600&auto=format&fit=crop"
+              alt="Savannah" />
+            <span class="badge absolute left-4 top-4 bg-orange-600">food</span>
+            <button class="fav absolute right-4 top-4">❤</button>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-3">
+              <img class="h-9 w-9 rounded-full" src="https://i.pravatar.cc/72?img=58" alt="Seller" />
+              <div class="text-sm">
+                <div class="font-semibold">Thabang Sotho</div>
+                <div class="text-slate-500">Free State, South Africa</div>
+              </div>
+            </div>
+            <h3 class="mt-3 text-lg font-semibold">Traditional Biltong & Droëwors Pack</h3>
+            <p class="mt-1 text-slate-600 text-sm">Authentic biltong and droëwors using heirloom spice blends.</p>
+            <div class="mt-3 flex flex-wrap gap-2 text-[11px]"><span
+                class="px-2 py-1 rounded-full bg-slate-100">biltong</span><span
+                class="px-2 py-1 rounded-full bg-slate-100">droëwors</span><span
+                class="px-2 py-1 rounded-full bg-slate-100">traditional</span></div>
+            <div class="mt-4 flex items-center justify-between">
+              <div class="font-bold text-brand-600">$95.00</div>
+              <button
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-white text-sm"><span>🛒</span>
+                Add to Cart</button>
+            </div>
+            <div class="mt-2 text-emerald-600 text-sm">20 available</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Entrepreneur (spotlight) -->
+  <section class="py-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-3xl p-8 ring-1 ring-slate-200 shadow-card">
+        <div class="flex flex-col lg:flex-row items-center gap-8">
+          <div class="flex-1">
+            <span
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-sm font-semibold">Featured
+              Entrepreneur</span>
+            <h3 class="mt-4 text-3xl font-extrabold">Esther Ndebele</h3>
+            <p class="mt-3 text-slate-600">Renowned Ndebele artist known for vibrant geometric wall paintings and
+              beadwork. Esther leads a women's cooperative and teaches the sacred symbolism behind traditional patterns.
+            </p>
+            <ul class="mt-5 space-y-2 text-slate-700">
+              <li>📍 Mpumalanga Province, South Africa</li>
+              <li>💲 $950.00 monthly income generated</li>
+              <li>👨‍👩‍👧‍👦 8 families supported</li>
+            </ul>
+            <div class="mt-6 flex gap-3">
+              <a href="#marketplace"
+                class="inline-flex px-5 py-2.5 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold">View
+                Products</a>
+              <a href="#"
+                class="inline-flex px-5 py-2.5 rounded-full border border-brand-200 text-brand-700 hover:bg-brand-50 font-semibold">Watch
+                Story</a>
+            </div>
+          </div>
+          <div class="flex-1 w-full">
+            <img class="rounded-2xl w-full h-56 object-cover shadow-card"
+              src="https://images.unsplash.com/photo-1516826957135-700dedea698c?q=80&w=1600&auto=format&fit=crop"
+              alt="Entrepreneur portrait" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Impact (KPIs + simple visuals) -->
+  <section id="impact" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-4xl font-black">Our <span class="text-brand-600">Impact</span></h2>
+        <p class="mt-3 text-slate-600">Real metrics showing how Roots to Realities is transforming rural communities
+          through digital empowerment and sustainable tourism.</p>
+      </div>
+
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="bg-white rounded-2xl p-6 ring-1 ring-slate-200 shadow-card text-center">
+          <div class="mx-auto h-12 w-12 grid place-items-center rounded-2xl bg-blue-100 text-blue-700">🌐</div>
+          <div class="mt-4 text-3xl font-extrabold">0</div>
+          <div class="text-slate-600">Villages Connected</div>
+          <div class="mt-2 text-emerald-600 text-sm">+12 this month</div>
+        </div>
+        <div class="bg-white rounded-2xl p-6 ring-1 ring-slate-200 shadow-card text-center">
+          <div class="mx-auto h-12 w-12 grid place-items-center rounded-2xl bg-rose-100 text-rose-700">👥</div>
+          <div class="mt-4 text-3xl font-extrabold">0</div>
+          <div class="text-slate-600">Entrepreneurs Supported</div>
+          <div class="mt-2 text-emerald-600 text-sm">+89 this month</div>
+        </div>
+        <div class="bg-white rounded-2xl p-6 ring-1 ring-slate-200 shadow-card text-center">
+          <div class="mx-auto h-12 w-12 grid place-items-center rounded-2xl bg-green-100 text-green-700">💵</div>
+          <div class="mt-4 text-3xl font-extrabold">$0M</div>
+          <div class="text-slate-600">Generated Revenue</div>
+          <div class="mt-2 text-emerald-600 text-sm">+24% vs last year</div>
+        </div>
+        <div class="bg-white rounded-2xl p-6 ring-1 ring-slate-200 shadow-card text-center">
+          <div class="mx-auto h-12 w-12 grid place-items-center rounded-2xl bg-violet-100 text-violet-700">🧳</div>
+          <div class="mt-4 text-3xl font-extrabold">0</div>
+          <div class="text-slate-600">Jobs Created</div>
+          <div class="mt-2 text-emerald-600 text-sm">+18% growth rate</div>
+        </div>
+      </div>
+
+      <div class="mt-10 grid gap-6 lg:grid-cols-2">
+        <div class="bg-white rounded-2xl p-6 ring-1 ring-slate-200 shadow-card">
+          <h3 class="text-xl font-semibold">Revenue Growth Over Time</h3>
+          <div
+            class="mt-4 h-48 w-full rounded-xl bg-gradient-to-t from-brand-200 to-brand-100 grid grid-cols-6 gap-3 p-4 items-end">
+            <div class="h-1/3 bg-brand-500 rounded-md"></div>
+            <div class="h-2/5 bg-brand-500 rounded-md"></div>
+            <div class="h-1/2 bg-brand-500 rounded-md"></div>
+            <div class="h-3/4 bg-brand-500 rounded-md"></div>
+            <div class="h-[85%] bg-brand-500 rounded-md"></div>
+            <div class="h-[90%] bg-brand-500 rounded-md"></div>
+          </div>
+          <p class="mt-2 text-sm text-slate-600">Monthly revenue growth illustration over 6 months.</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 ring-1 ring-slate-200 shadow-card">
+          <h3 class="text-xl font-semibold">Geographic Distribution</h3>
+          <div class="mt-4 grid grid-cols-3 gap-4 text-sm">
+            <div class="rounded-xl p-4 bg-green-50 text-green-800">Peru — 8 villages</div>
+            <div class="rounded-xl p-4 bg-green-50 text-green-800">Mali — 6 villages</div>
+            <div class="rounded-xl p-4 bg-green-50 text-green-800">Mexico — 7 villages</div>
+            <div class="rounded-xl p-4 bg-green-50 text-green-800">Morocco — 5 villages</div>
+            <div class="rounded-xl p-4 bg-green-50 text-green-800">Guatemala — 4 villages</div>
+            <div class="rounded-xl p-4 bg-green-50 text-green-800">Ghana — 2 villages</div>
+          </div>
+          <p class="mt-2 text-sm text-slate-600">Villages distributed across 8 countries and 4 continents.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VR Preview Modal -->
+  <div id="vrModal" class="fixed inset-0 z-[60] hidden">
+    <div class="absolute inset-0 bg-slate-900/60"></div>
+    <div class="relative mx-auto max-w-3xl mt-20 bg-white rounded-2xl overflow-hidden shadow-2xl ring-1 ring-slate-200">
+      <div class="flex items-center justify-between px-4 py-3 border-b">
+        <h3 id="vrTitle" class="text-lg font-semibold">Virtual Tour Preview</h3>
+        <button id="vrClose" class="h-9 w-9 grid place-items-center rounded-full border">✕</button>
+      </div>
+
+      <div class="p-4">
+        <!-- Media container: shows either iframe (YouTube) or video (MP4) -->
+        <div class="w-full h-72 bg-slate-100 rounded-xl overflow-hidden">
+          <iframe id="vrIframe" class="w-full h-full hidden" src="" title="VR preview" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+          <iframe id="vrIframe" class="w-full h-72 rounded-xl hidden" title="VR Preview" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+
+          <video id="vrPreview" class="w-full h-full hidden bg-slate-100" controls preload="metadata" playsinline>
+          </video>
+        </div>
+
+        <p id="vrDesc" class="mt-3 text-sm text-slate-600"></p>
+
+        <div class="mt-4 flex items-center justify-between">
+          <div class="text-sm text-slate-600">
+            <span id="vrRating">★ 4.8</span> ·
+            <span id="vrViews">0 views</span> ·
+            <span id="vrDuration">90 min</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span id="vrPrice" class="text-lg font-bold text-brand-600">$6.00</span>
+            <button id="vrBuy"
+              class="inline-flex px-5 py-2.5 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold"
+              data-id="">
+              Buy Full VR Experience
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- API quick links -->
+  <section id="api" class="py-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-bold">Django REST API Endpoints</h2>
+      <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+        <a class="px-4 py-3 rounded-xl bg-white ring-1 ring-slate-200 hover:bg-slate-50" href="/api/villages/"
+          target="_blank">📍 Villages API</a>
+        <a class="px-4 py-3 rounded-xl bg-white ring-1 ring-slate-200 hover:bg-slate-50" href="/api/entrepreneurs/"
+          target="_blank">👨‍💼 Entrepreneurs API</a>
+        <a class="px-4 py-3 rounded-xl bg-white ring-1 ring-slate-200 hover:bg-slate-50" href="/api/products/"
+          target="_blank">🛍️ Products API</a>
+        <a class="px-4 py-3 rounded-xl bg-white ring-1 ring-slate-200 hover:bg-slate-50" href="/api/training-modules/"
+          target="_blank">🎓 Training Modules API</a>
+        <a class="px-4 py-3 rounded-xl bg-white ring-1 ring-slate-200 hover:bg-slate-50" href="/api/ai-stories/"
+          target="_blank">📖 AI Stories API</a>
+        <a class="px-4 py-3 rounded-xl bg-white ring-1 ring-slate-200 hover:bg-slate-50" href="/admin/"
+          target="_blank">⚙️ Django Admin</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-white/70">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <p class="text-sm text-slate-600">© <span id="year"></span> Roots to Realities. All rights reserved.</p>
+      <div class="flex items-center gap-4 text-sm text-slate-600">
+        <a href="#villages" class="hover:text-brand-600">Explore Villages</a>
+        <a href="#marketplace" class="hover:text-brand-600">Marketplace</a>
+        <a href="#skills" class="hover:text-brand-600">Digital Skills</a>
+        <a href="#impact" class="hover:text-brand-600">Our Impact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <script>
+    // VR Modal logic
+    (() => {
+      const modal = document.getElementById('vrModal');
+      const closeBtn = document.getElementById('vrClose');
+
+      const iframe = document.getElementById('vrIframe');   // YouTube
+      const video = document.getElementById('vrPreview');   // MP4 (kept for future use)
+      const desc = document.getElementById('vrDesc');
+      const priceEl = document.getElementById('vrPrice');
+      const buyBtn = document.getElementById('vrBuy');
+      const ratingEl = document.getElementById('vrRating');
+      const viewsEl = document.getElementById('vrViews');
+      const durEl = document.getElementById('vrDuration');
+
+      function openModal() {
+        modal.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+      }
+      function closeModal() {
+        modal.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+        // stop any playback
+        video.pause?.();
+        iframe.src = '';
+      }
+
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target.classList.contains('bg-slate-900/60')) closeModal();
+      });
+
+      // Wire all Start Tour buttons; handle YouTube when present
+      document.querySelectorAll('article .pill').forEach((btn) => {
+        btn.addEventListener('click', async (e) => {
+          // reset players
+          video.classList.add('hidden');
+          iframe.classList.add('hidden');
+          video.removeAttribute('src');
+          iframe.src = '';
+
+          // read attributes (we only care about YouTube for this request)
+          const ytId = btn.getAttribute('data-vr-youtube'); // e.g., jt4jtO4gKsM
+          const text = btn.getAttribute('data-vr-desc') || '';
+          const id = btn.getAttribute('data-vr-id') || '';
+
+          // set copy (cosmetics)
+          desc.textContent = text;
+          ratingEl.textContent = '★ 4.8';
+          viewsEl.textContent = '0 views';
+          durEl.textContent = '90 min';
+          priceEl.textContent = '$6.00';
+          buyBtn.dataset.id = id;
+
+          if (ytId) {
+            // Use YouTube embed (works for Shorts too)
+            iframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1`;
+            iframe.classList.remove('hidden');
+            openModal();
+            return;
+          }
+
+          // Fallback (kept for future enhancement)
+          alert('No preview configured for this tour yet.');
+        });
+      });
+
+      // Optional: checkout if/when Stripe is configured
+      buyBtn.addEventListener('click', async (e) => {
+        const id = e.currentTarget.dataset.id;
+        if (!id) { alert('No tour selected.'); return; }
+        try {
+          const r = await fetch(`/api/villages/${id}/checkout/`, { method: 'POST' });
+          const data = await r.json();
+          if (data.url) window.location.href = data.url;
+          else alert('Checkout link unavailable.');
+        } catch (err) {
+          console.error(err);
+          alert('Payment service is temporarily unavailable.');
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>
