@@ -16,27 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from villages.views import VillageViewSet, AIStoryViewSet
-from marketplace.views import EntrepreneurViewSet, ProductViewSet, OrderViewSet
-from training.views import TrainingModuleViewSet, UserTrainingProgressViewSet
-from django.contrib.auth import views as auth_views
-from django.views.generic import TemplateView
-
-# API Router
-router = DefaultRouter()
-router.register(r'villages', VillageViewSet)
-router.register(r'ai-stories', AIStoryViewSet)
-router.register(r'entrepreneurs', EntrepreneurViewSet)
-router.register(r'products', ProductViewSet)
-router.register(r'orders', OrderViewSet, basename='orders')
-router.register(r'training-modules', TrainingModuleViewSet)
-router.register(r'training-progress', UserTrainingProgressViewSet, basename='training-progress')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path('api/auth/login/', auth_views.LoginView.as_view(), name='login'),
-    path('api/auth/logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('', TemplateView.as_view(template_name='index.html'), name='home'),
+    path('', include('myapp.urls')),
+    
 ]
