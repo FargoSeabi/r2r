@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zithulele Village — Full VR Tour</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ["Inter", "Segoe UI", "system-ui", "sans-serif"] },
+          colors: {
+            brand: {
+              500: "#e2623f",
+              600: "#cf5536",
+              700: "#b7442b",
+            }
+          },
+          boxShadow: {
+            card: "0 10px 24px rgba(2, 6, 23, .08)",
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-b from-slate-50 to-slate-100 text-slate-900 font-sans">
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2">
+        <span class="text-brand-600 font-black text-lg">Roots to Realities</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="/" class="hover:text-brand-600 transition">Home</a>
+        <a href="#tour" class="text-brand-600 font-semibold">Start VR Tour</a>
+        <a href="#activities" class="hover:text-brand-600 transition">Activities</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-white">
+    <div class="absolute inset-0 bg-gradient-to-r from-brand-50 to-slate-50"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 relative z-10 grid gap-10 lg:grid-cols-2 items-center">
+      <div>
+        <h1 class="text-4xl sm:text-5xl font-black tracking-tight text-slate-900">Zithulele Village — Full 360° VR Tour</h1>
+        <p class="mt-5 text-lg text-slate-600 leading-relaxed">Your access has been verified. Immerse yourself in the Red Blanket people’s traditions through this 360° experience. Move your phone or drag to explore.</p>
+        <div class="mt-8 flex gap-4">
+          <a href="#tour" class="px-6 py-3 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold shadow-lg transition">▶ Start Full Tour</a>
+          <a href="#activities" class="px-6 py-3 rounded-full border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-semibold transition">See Activities</a>
+        </div>
+      </div>
+      <div class="hidden lg:block">
+        <img class="rounded-3xl shadow-card" src="https://www.krugerpark.co.za/images/magubane-xhosa042-786x516.jpg" alt="Zithulele Village preview">
+      </div>
+    </div>
+  </section>
+
+  <!-- VR Player -->
+  <!-- 360° Player (Full Access) -->
+  <section id="tour" class="py-8" role="region" aria-label="VR player">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-2xl overflow-hidden ring-1 ring-slate-200 shadow-card">
+        <div class="flex items-center justify-between px-4 py-3 border-b">
+          <h2 class="text-xl font-semibold">Now Playing — Zithulele 360°</h2>
+          <div id="playerHint" class="text-sm text-slate-600">Click and drag • Move device • Full‑screen available</div>
+        </div>
+        <div class="aspect-video bg-black" role="application" aria-label="360 video container">
+          <iframe id="vrIframe" class="w-full h-full" src="https://www.youtube.com/embed/jt4jtO4gKsM?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="Zithulele Full 360°" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; vr" allowfullscreen></iframe>
+        </div>
+        <div class="px-4 py-4 grid gap-4 sm:grid-cols-2 items-center">
+          <div class="text-sm text-slate-600">If playback stalls, press Pause then Play. For accessibility, a short transcript is available below.</div>
+          <div class="flex justify-end gap-2">
+            <button id="restartBtn" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-300 hover:bg-slate-50" aria-label="Restart video">
+              <span class="kbd" aria-hidden="true">↺</span> Restart
+            </button>
+            <button id="helpBtn" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-300 hover:bg-slate-50" aria-haspopup="dialog" aria-controls="helpModal">Help</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transcript / Description -->
+      <details class="mt-4 bg-white rounded-2xl p-5 ring-1 ring-slate-200 shadow-card" aria-label="Transcript">
+        <summary class="cursor-pointer font-semibold">Short Description / Transcript</summary>
+        <p class="mt-3 text-sm text-slate-700">A sweeping panorama over Zithulele’s coastal ridge, transitioning to village pathways, homesteads, and communal spaces. Ambient sounds of wind, distant chatter, and livestock underscore the scene.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- Activities -->
+  <!-- Activities & Bookable Options (no tour booking here) -->
+  <section id="activities" class="py-12 bg-white" role="region" aria-labelledby="activitiesTitle">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 id="activitiesTitle" class="text-3xl sm:text-4xl font-black">Explore More at Zithulele</h2>
+        <p class="mt-3 text-slate-600 max-w-3xl mx-auto">Optional experiences you can book separately. Use filters to refine.</p>
+      </div>
+
+      <!-- HCI: Filters & Sort -->
+      <div class="mt-6 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-2" role="group" aria-label="Activity filters">
+          <button class="chip activity-filter focus-ring" data-filter="all" aria-pressed="true">All</button>
+          <button class="chip activity-filter" data-filter="experience">Experiences</button>
+          <button class="chip activity-filter" data-filter="food">Food</button>
+          <button class="chip activity-filter" data-filter="workshop">Workshops</button>
+          <button class="chip activity-filter" data-filter="retail">Retail</button>
+        </div>
+        <label class="text-sm text-slate-700 flex items-center gap-2">Sort by
+          <select id="sortSelect" class="rounded-xl border-slate-300 focus:border-brand-500 focus:ring-brand-500 text-sm">
+            <option value="featured">Featured</option>
+            <option value="priceAsc">Price: Low to High</option>
+            <option value="priceDesc">Price: High to Low</option>
+            <option value="durationAsc">Duration: Short to Long</option>
+          </select>
+        </label>
+      </div>
+
+      <div id="cards" class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- Cards carry data attributes for filter/sort; static buttons (no Django URLs) -->
+        <article class="card" data-type="experience" data-price="280" data-duration="90">
+          <div class="bg-white rounded-2xl overflow-hidden ring-1 ring-slate-200 shadow-card" data-activity="herding">
+            <div class="h-44 bg-[url('https://images.unsplash.com/photo-1523978591478-c753949ff840?q=80&w=1600&auto=format&fit=crop')] bg-cover bg-center" role="img" aria-label="Herding cattle landscape"></div>
+            <div class="p-5">
+              <h3 class="text-lg font-semibold">Herding Cattle with Local Farmers</h3>
+              <p class="mt-1 text-slate-600 text-sm">Walk the grazing routes, learn calls and whistles, and understand sustainable herding practices.</p>
+              <div class="mt-3 text-sm text-slate-600">90 min · Group size 8</div>
+              <div class="mt-4 flex items-center justify-between">
+                <button type="button" class="inline-flex px-4 py-2 rounded-full border border-slate-300 hover:bg-slate-50 js-details" data-key="herding">Details</button>
+                <button type="button" class="inline-flex px-4 py-2 rounded-full bg-brand-600 hover:bg-brand-700 text-white js-book" data-key="herding">Book</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-type="food" data-price="350" data-duration="120">
+          <div class="bg-white rounded-2xl overflow-hidden ring-1 ring-slate-200 shadow-card" data-activity="cooking">
+            <div class="h-44 bg-[url('https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=1600&auto=format&fit=crop')] bg-cover bg-center" role="img" aria-label="Cooking class table"></div>
+            <div class="p-5">
+              <h3 class="text-lg font-semibold">Traditional Meal Cooking Class</h3>
+              <p class="mt-1 text-slate-600 text-sm">Prepare pap, umngqusho, and seasonal sides while learning culinary customs.</p>
+              <div class="mt-3 text-sm text-slate-600">120 min · Group size 10</div>
+              <div class="mt-4 flex items-center justify-between">
+                <button type="button" class="inline-flex px-4 py-2 rounded-full border border-slate-300 hover:bg-slate-50 js-details" data-key="cooking">Details</button>
+                <button type="button" class="inline-flex px-4 py-2 rounded-full bg-brand-600 hover:bg-brand-700 text-white js-book" data-key="cooking">Book</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-type="workshop" data-price="260" data-duration="90">
+          <div class="bg-white rounded-2xl overflow-hidden ring-1 ring-slate-200 shadow-card" data-activity="beadwork">
+            <div class="h-44 bg-[url('https://images.unsplash.com/photo-1563729784474-d77dbb933a9b?q=80&w=1600&auto=format&fit=crop')] bg-cover bg-center" role="img" aria-label="Beadwork close-up"></div>
+            <div class="p-5">
+              <h3 class="text-lg font-semibold">Traditional Beadwork Workshop</h3>
+              <p class="mt-1 text-slate-600 text-sm">Hands‑on bead patterns with local artisans. Take home your creation.</p>
+              <div class="mt-3 text-sm text-slate-600">90 min · Group size 12</div>
+              <div class="mt-4 flex items-center justify-between">
+                <button type="button" class="inline-flex px-4 py-2 rounded-full border border-slate-300 hover:bg-slate-50 js-details" data-key="beadwork">Details</button>
+                <button type="button" class="inline-flex px-4 py-2 rounded-full bg-brand-600 hover:bg-brand-700 text-white js-book" data-key="beadwork">Book</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-type="experience" data-price="180" data-duration="60">
+          <div class="bg-white rounded-2xl overflow-hidden ring-1 ring-slate-200 shadow-card" data-activity="storytelling">
+            <div class="h-44 bg-[url('https://images.unsplash.com/photo-1461532257246-777de18cd58b?q=80&w=1600&auto=format&fit=crop')] bg-cover bg-center" role="img" aria-label="Storytelling circle"></div>
+            <div class="p-5">
+              <h3 class="text-lg font-semibold">Storytelling with the Village Elder</h3>
+              <p class="mt-1 text-slate-600 text-sm">Oral histories, myths, and songs illuminating Zithulele’s heritage.</p>
+              <div class="mt-3 text-sm text-slate-600">60 min · Group size 20</div>
+              <div class="mt-4 flex items-center justify-between">
+                <button type="button" class="inline-flex px-4 py-2 rounded-full border border-slate-300 hover:bg-slate-50 js-details" data-key="storytelling">Details</button>
+                <button type="button" class="inline-flex px-4 py-2 rounded-full bg-brand-600 hover:bg-brand-700 text-white js-book" data-key="storytelling">Book</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-type="experience" data-price="750" data-duration="720">
+          <div class="bg-white rounded-2xl overflow-hidden ring-1 ring-slate-200 shadow-card" data-activity="homestay">
+            <div class="h-44 bg-[url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop')] bg-cover bg-center" role="img" aria-label="Homestay rondavel"></div>
+            <div class="p-5">
+              <h3 class="text-lg font-semibold">Homestay Experience</h3>
+              <p class="mt-1 text-slate-600 text-sm">Overnight with a host family. Includes dinner, breakfast, and morning walk.</p>
+              <div class="mt-3 text-sm text-slate-600">Private room · 1 night</div>
+              <div class="mt-4 flex items-center justify-between">
+                <button type="button" class="inline-flex px-4 py-2 rounded-full border border-slate-300 hover:bg-slate-50 js-details" data-key="homestay">Details</button>
+                <button type="button" class="inline-flex px-4 py-2 rounded-full bg-brand-600 hover:bg-brand-700 text-white js-book" data-key="homestay">Book</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-type="food" data-price="120" data-duration="90">
+          <div class="bg-white rounded-2xl overflow-hidden ring-1 ring-slate-200 shadow-card" data-activity="restaurant">
+            <div class="h-44 bg-[url('https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1600&auto=format&fit=crop')] bg-cover bg-center" role="img" aria-label="Village restaurant table"></div>
+            <div class="p-5">
+              <h3 class="text-lg font-semibold">Village Restaurant Booking</h3>
+              <p class="mt-1 text-slate-600 text-sm">Reserve a table featuring seasonal local produce and traditional dishes.</p>
+              <div class="mt-3 text-sm text-slate-600">Seatings: 12:00 · 15:00 · 18:00</div>
+              <div class="mt-4 flex items-center justify-between">
+                <button type="button" class="inline-flex px-4 py-2 rounded-full border border-slate-300 hover:bg-slate-50 js-details" data-key="restaurant">Details</button>
+                <button type="button" class="inline-flex px-4 py-2 rounded-full bg-brand-600 hover:bg-brand-700 text-white js-book" data-key="restaurant">Book</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-type="retail" data-price="0" data-duration="60">
+          <div class="bg-white rounded-2xl overflow-hidden ring-1 ring-slate-200 shadow-card" data-activity="artwork">
+            <div class="h-44 bg-[url('https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=1600&auto=format&fit=crop')] bg-cover bg-center" role="img" aria-label="Artwork market"></div>
+            <div class="p-5">
+              <h3 class="text-lg font-semibold">Artwork Market Visit</h3>
+              <p class="mt-1 text-slate-600 text-sm">Browse carvings, paintings, and textiles. Support village artisans directly.</p>
+              <div class="mt-3 text-sm text-slate-600">Hosted by local cooperative</div>
+              <div class="mt-4 flex items-center justify-between">
+                <button type="button" class="inline-flex px-4 py-2 rounded-full border border-slate-300 hover:bg-slate-50 js-details" data-key="artwork">Details</button>
+                <button type="button" class="inline-flex px-4 py-2 rounded-full bg-brand-600 hover:bg-brand-700 text-white js-book" data-key="artwork">Book</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-type="retail" data-price="0" data-duration="45">
+          <div class="bg-white rounded-2xl overflow-hidden ring-1 ring-slate-200 shadow-card" data-activity="beadshop">
+            <div class="h-44 bg-[url('https://images.unsplash.com/photo-1603575449290-94ee3692684d?q=80&w=1600&auto=format&fit=crop')] bg-cover bg-center" role="img" aria-label="Beadwork shop"></div>
+            <div class="p-5">
+              <h3 class="text-lg font-semibold">Beadwork Shop Visit</h3>
+              <p class="mt-1 text-slate-600 text-sm">Meet makers, understand patterns, and purchase handmade pieces.</p>
+              <div class="mt-3 text-sm text-slate-600">Guided by artisan mentor</div>
+              <div class="mt-4 flex items-center justify-between">
+                <button type="button" class="inline-flex px-4 py-2 rounded-full border border-slate-300 hover:bg-slate-50 js-details" data-key="beadshop">Details</button>
+                <button type="button" class="inline-flex px-4 py-2 rounded-full bg-brand-600 hover:bg-brand-700 text-white js-book" data-key="beadshop">Book</button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticky Utility Bar -->
+  <div class="fixed bottom-3 left-0 right-0 z-40">
+    <div class="max-w-7xl mx-auto px-3">
+      <div class="bg-white/90 backdrop-blur rounded-full shadow-card ring-1 ring-slate-200 px-3 py-2 flex items-center justify-between">
+        <div class="text-sm text-slate-700">Press <span class="kbd">F</span> for full screen • <span class="kbd">Tab</span> to cycle actions</div>
+        <div class="flex items-center gap-2">
+          <a href="#tour" class="pill">Back to Player</a>
+          <a href="#activities" class="pill">Explore Activities</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activity Modal (static) -->
+  <div id="activityModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="actTitle">
+    <div class="absolute inset-0 bg-slate-900/60" onclick="toggleAct(false)"></div>
+    <div class="relative mx-auto max-w-lg mt-24 bg-white rounded-2xl overflow-hidden shadow-2xl ring-1 ring-slate-200">
+      <div class="px-5 py-4 border-b flex items-center justify-between">
+        <h4 id="actTitle" class="text-lg font-semibold">Activity</h4>
+        <button class="h-9 w-9 grid place-items-center rounded-full border" onclick="toggleAct(false)" aria-label="Close">✕</button>
+      </div>
+      <div class="p-5 text-sm text-slate-700 space-y-3">
+        <img id="actImg" alt="" class="w-full h-44 object-cover rounded-xl"/>
+        <p id="actDesc"></p>
+        <p class="text-slate-600"><span id="actMeta"></span></p>
+      </div>
+      <div class="px-5 pb-5 flex justify-between gap-3">
+        <a id="actEmail" class="inline-flex px-4 py-2 rounded-full bg-brand-600 hover:bg-brand-700 text-white" href="#">Enquire via Email</a>
+        <button class="inline-flex px-4 py-2 rounded-full border" onclick="toggleAct(false)">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help Modal -->
+  <div id="helpModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="absolute inset-0 bg-slate-900/60" onclick="toggleHelp(false)"></div>
+    <div class="relative mx-auto max-w-lg mt-24 bg-white rounded-2xl overflow-hidden shadow-2xl ring-1 ring-slate-200">
+      <div class="px-5 py-4 border-b flex items-center justify-between">
+        <h4 id="helpTitle" class="text-lg font-semibold">How to Navigate the 360° Tour</h4>
+        <button class="h-9 w-9 grid place-items-center rounded-full border" onclick="toggleHelp(false)" aria-label="Close help">✕</button>
+      </div>
+      <div class="p-5 text-sm text-slate-700 space-y-2">
+        <p>• Drag the video to look around or physically move your phone.</p>
+        <p>• Use the full-screen control on the player for best immersion.</p>
+        <p>• If you prefer reduced motion, exit full screen and watch in windowed mode.</p>
+      </div>
+      <div class="px-5 pb-5 flex justify-end">
+        <button class="pill" onclick="toggleHelp(false)">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-white/80 backdrop-blur">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row justify-between items-center text-sm text-slate-600 gap-4">
+      <p>© <span id="year"></span> Roots to Realities. All rights reserved.</p>
+      <nav class="flex gap-4">
+        <a href="#tour" class="hover:text-brand-600">Start Tour</a>
+        <a href="#activities" class="hover:text-brand-600">Activities</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+  <script>
+    // High contrast toggle (persists per session)
+    const toggle = document.getElementById('contrastToggle');
+    toggle?.addEventListener('click', () => {
+      const on = !document.documentElement.classList.contains('hc');
+      document.documentElement.classList.toggle('hc', on);
+      toggle.setAttribute('aria-pressed', String(on));
+    });
+
+    // Restart button: attempt to restart YouTube video via postMessage API
+    const restartBtn = document.getElementById('restartBtn');
+    restartBtn?.addEventListener('click', () => {
+      const iframe = document.getElementById('vrIframe');
+      try {
+        iframe.contentWindow.postMessage(JSON.stringify({event:'command', func:'seekTo', args:[0, true]}), '*');
+        iframe.contentWindow.postMessage(JSON.stringify({event:'command', func:'playVideo'}), '*');
+      } catch (e) { /* no‑op */ }
+      iframe.focus();
+    });
+
+    // Help modal
+    const helpBtn = document.getElementById('helpBtn');
+    function toggleHelp(show){
+      const m = document.getElementById('helpModal');
+      if(show){ m.classList.remove('hidden'); document.body.classList.add('overflow-hidden'); }
+      else { m.classList.add('hidden'); document.body.classList.remove('overflow-hidden'); }
+    }
+    window.toggleHelp = toggleHelp;
+    helpBtn?.addEventListener('click', () => toggleHelp(true));
+
+    // Filters & sorting for activities (progressive enhancement)
+    const cards = Array.from(document.querySelectorAll('#cards .card'));
+    const filterBtns = document.querySelectorAll('.activity-filter');
+    let activeFilter = 'all';
+
+    filterBtns.forEach(btn => btn.addEventListener('click', () => {
+      activeFilter = btn.dataset.filter;
+      filterBtns.forEach(b => b.setAttribute('aria-pressed', String(b===btn)));
+      render();
+    }));
+
+    document.getElementById('sortSelect')?.addEventListener('change', render);
+
+    function render(){
+      const sort = document.getElementById('sortSelect').value;
+      const container = document.getElementById('cards');
+      let list = cards.slice();
+      if(activeFilter !== 'all') list = list.filter(c => c.dataset.type === activeFilter);
+      switch(sort){
+        case 'priceAsc': list.sort((a,b)=>+a.dataset.price-+b.dataset.price); break;
+        case 'priceDesc': list.sort((a,b)=>+b.dataset.price-+a.dataset.price); break;
+        case 'durationAsc': list.sort((a,b)=>+a.dataset.duration-+b.dataset.duration); break;
+        default: break;
+      }
+      container.innerHTML = '';
+      list.forEach(c => container.appendChild(c));
+    }
+      // Static activity modal logic
+    const ACTIVITY_DATA = {
+      herding: {title:'Herding Cattle with Local Farmers', desc:'Walk the grazing routes, learn calls and whistles, and understand sustainable herding practices.', meta:'90 min · Group size 8 · Approx R280', img:"https://images.unsplash.com/photo-1523978591478-c753949ff840?q=80&w=1600&auto=format&fit=crop"},
+      cooking: {title:'Traditional Meal Cooking Class', desc:'Prepare pap, umngqusho, and seasonal sides while learning culinary customs.', meta:'120 min · Group size 10 · Approx R350', img:"https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=1600&auto=format&fit=crop"},
+      beadwork: {title:'Traditional Beadwork Workshop', desc:'Hands‑on bead patterns with local artisans. Take home your creation.', meta:'90 min · Group size 12 · Approx R260', img:"https://images.unsplash.com/photo-1563729784474-d77dbb933a9b?q=80&w=1600&auto=format&fit=crop"},
+      storytelling: {title:'Storytelling with the Village Elder', desc:'Oral histories, myths, and songs illuminating Zithulele’s heritage.', meta:'60 min · Group size 20 · Approx R180', img:"https://images.unsplash.com/photo-1461532257246-777de18cd58b?q=80&w=1600&auto=format&fit=crop"},
+      homestay: {title:'Homestay Experience', desc:'Overnight with a host family. Includes dinner, breakfast, and morning walk.', meta:'1 night · Private room · Approx R750', img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop"},
+      restaurant: {title:'Village Restaurant Booking', desc:'Reserve a table featuring seasonal local produce and traditional dishes.', meta:'Seatings: 12:00 · 15:00 · 18:00 · Approx R120', img:"https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1600&auto=format&fit=crop"},
+      artwork: {title:'Artwork Market Visit', desc:'Browse carvings, paintings, and textiles. Support village artisans directly.', meta:'Hosted by local cooperative · 60 min', img:"https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=1600&auto=format&fit=crop"},
+      beadshop: {title:'Beadwork Shop Visit', desc:'Meet makers, understand patterns, and purchase handmade pieces.', meta:'Guided by artisan mentor · 45 min', img:"https://images.unsplash.com/photo-1603575449290-94ee3692684d?q=80&w=1600&auto=format&fit=crop"}
+    };
+
+    function toggleAct(show, key){
+      const modal = document.getElementById('activityModal');
+      if(show){
+        const d = ACTIVITY_DATA[key];
+        document.getElementById('actTitle').textContent = d.title;
+        document.getElementById('actDesc').textContent = d.desc;
+        document.getElementById('actMeta').textContent = d.meta;
+        document.getElementById('actImg').src = d.img;
+        const mail = 'mailto:hello@rootstorealities.co.za?subject=' + encodeURIComponent('Enquiry: '+d.title) + '&body=' + encodeURIComponent('Hi, I would like to enquire about '+d.title+' at Zithulele Village.');
+        document.getElementById('actEmail').href = mail;
+        modal.classList.remove('hidden'); document.body.classList.add('overflow-hidden');
+      } else { modal.classList.add('hidden'); document.body.classList.remove('overflow-hidden'); }
+    }
+    window.toggleAct = toggleAct;
+
+    document.querySelectorAll('.js-details').forEach(btn=>btn.addEventListener('click',()=>toggleAct(true, btn.dataset.key)));
+    document.querySelectorAll('.js-book').forEach(btn=>btn.addEventListener('click',()=>toggleAct(true, btn.dataset.key)));
+  </script>
+</body>
+</html>

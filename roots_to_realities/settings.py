@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'myapp',
 ]
 
 MIDDLEWARE = [
@@ -157,7 +158,7 @@ PAYFAST_ENV = "sandbox"
 
 PAYFAST_MERCHANT_ID  = "10041623"            # from your screenshot
 PAYFAST_MERCHANT_KEY = "7busob28glxau"       # from your screenshot
-PAYFAST_PASSPHRASE   = "ikho.pass_2025_r2r"  # from your screenshot (no extra spaces)
+PAYFAST_PASSPHRASE   = ""  # from your screenshot (no extra spaces)
 
 PAYFAST_PROCESS_URL  = "https://sandbox.payfast.co.za/eng/process"
 PAYFAST_RETURN_URL   = "http://127.0.0.1:8000/payment-success/"

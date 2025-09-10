@@ -1,0 +1,9 @@
+<h1>Order Receipt</h1>
+<p><strong>Order:</strong> {{ order.id }}</p>
+<p><strong>Amount:</strong> R{{ order.amount }}</p>
+<p><strong>Status:</strong> {{ order.get_status_display }}</p>
+{% if paid %}
+  <p>Payment received. Thank you!</p>
+{% else %}
+  <p>Payment not completed yet.</p>
+{% endif %}

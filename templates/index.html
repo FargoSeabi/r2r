@@ -172,10 +172,9 @@
                         <img class="absolute inset-0 h-full w-full object-cover"
                             src="https://www.krugerpark.co.za/images/magubane-xhosa042-786x516.jpg"
                             alt="Mountain village" />
-
                         <button class="fav absolute right-4 top-4" aria-label="Save">❤</button>
                         <button style="color: aliceblue;" class="pill absolute left-4 bottom-4" data-vr-id="3"
-                            data-vr-title="Xhosa Cultural Village – Eastern Cape"
+                            data-vr-title="Zithulele Village – Eastern Cape"
                             data-vr-desc="This is a preview of the Xhosa Zithulele Village 360 tour that are projected in the projection rooms of the Roots to Realities VR experience. Experience the rich heritage of the Red Blanket people—initiation rites, storytelling, and song.
                 Explore this village by booking your seat in the projection rooms and follow us to see where our next set up will be." data-vr-youtube="jt4jtO4gKsM">
                             <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none">
@@ -186,7 +185,7 @@
 
                     </div>
                     <div class="p-5">
-                        <h3 class="text-xl font-semibold">Xhosa Cultural Village – Eastern Cape</h3>
+                        <h3 class="text-xl font-semibold">Zithulele Village – Eastern Cape</h3>
                         <p class="mt-2 text-slate-600">Discover the rich heritage of the Red Blanket people—initiation
                             rites,
                             storytelling, and song.</p>
@@ -316,7 +315,7 @@
                             <span class="px-2 py-1 rounded-full bg-slate-100">traditional</span>
                         </div>
                         <div class="mt-4 flex items-center justify-between">
-                            <div class="font-bold text-brand-600">$180.00</div>
+                            <div class="font-bold text-brand-600">R180.00</div>
                             <button
                                 class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-white text-sm"><span>🛒</span>
                                 Add to Cart</button>
@@ -350,7 +349,7 @@
                                 class="px-2 py-1 rounded-full bg-slate-100">cooking</span><span
                                 class="px-2 py-1 rounded-full bg-slate-100">bobotie</span></div>
                         <div class="mt-4 flex items-center justify-between">
-                            <div class="font-bold text-brand-600">$195.00</div>
+                            <div class="font-bold text-brand-600">R195.00</div>
                             <button
                                 class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-white text-sm">Book
                                 Now</button>
@@ -379,7 +378,7 @@
                                 class="px-2 py-1 rounded-full bg-slate-100">rooibos</span><span
                                 class="px-2 py-1 rounded-full bg-slate-100">honeybush</span></div>
                         <div class="mt-4 flex items-center justify-between">
-                            <div class="font-bold text-brand-600">$85.00</div>
+                            <div class="font-bold text-brand-600">R85.00</div>
                             <button
                                 class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-white text-sm"><span>🛒</span>
                                 Add to Cart</button>
@@ -413,7 +412,7 @@
                                 class="px-2 py-1 rounded-full bg-slate-100">droëwors</span><span
                                 class="px-2 py-1 rounded-full bg-slate-100">traditional</span></div>
                         <div class="mt-4 flex items-center justify-between">
-                            <div class="font-bold text-brand-600">$95.00</div>
+                            <div class="font-bold text-brand-600">R95.00</div>
                             <button
                                 class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-white text-sm"><span>🛒</span>
                                 Add to Cart</button>
@@ -442,7 +441,7 @@
                         </p>
                         <ul class="mt-5 space-y-2 text-slate-700">
                             <li>📍 Mpumalanga Province, South Africa</li>
-                            <li>💲 $950.00 monthly income generated</li>
+                            <li>👨‍💼 R950.00 monthly income generated</li>
                             <li>👨‍👩‍👧‍👦 8 families supported</li>
                         </ul>
                         <div class="mt-6 flex gap-3">
@@ -492,7 +491,7 @@
                 <div class="bg-white rounded-2xl p-6 ring-1 ring-slate-200 shadow-card text-center">
                     <div class="mx-auto h-12 w-12 grid place-items-center rounded-2xl bg-green-100 text-green-700">💵
                     </div>
-                    <div class="mt-4 text-3xl font-extrabold">$0M</div>
+                    <div class="mt-4 text-3xl font-extrabold">R20K</div>
                     <div class="text-slate-600">Generated Revenue</div>
                     <div class="mt-2 text-emerald-600 text-sm">+24% vs last year</div>
                 </div>
@@ -566,8 +565,8 @@
                         <span id="vrDuration">90 min</span>
                     </div>
                     <div class="flex items-center gap-3">
-                        <span id="vrPrice" class="text-lg font-bold text-brand-600">$6.00</span>
-                        <a href="{% url 'payfast_checkout' %}">
+                        <span id="vrPrice" class="text-lg font-bold text-brand-600">From R75.00</span>
+                        <a href="{% url 'ticket_form' %}">
                             Book Full VR Experience
                         </a>
                     </div>
@@ -677,7 +676,6 @@
                     ratingEl.textContent = '★ 4.8';
                     viewsEl.textContent = '0 views';
                     durEl.textContent = '90 min';
-                    priceEl.textContent = '$6.00';
                     buyBtn.dataset.id = id;
 
                     if (ytId) {

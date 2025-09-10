@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Payment {{ paid|yesno:"Successful,Status" }} — Roots to Realities</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ["Inter","Segoe UI","system-ui","sans-serif"] },
+          colors: {
+            brand: { 50:"#fff3ed",100:"#ffe6d9",200:"#fdc9b4",300:"#fba886",400:"#f07e59",500:"#e2623f",600:"#cf5536",700:"#b7442b",800:"#953826",900:"#7a2f21" }
+          },
+          boxShadow: { card:"0 10px 24px rgba(2,6,23,.08)" }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    .hero-grad { background: radial-gradient(900px 420px at 80% -10%, rgba(226,98,63,.18), transparent 60%), linear-gradient(90deg, #ffe6d9 0%, #fff3ed 100%); }
+    .kbd { display:inline-flex; align-items:center; padding:.125rem .375rem; font-size:.7rem; border-radius:.375rem; border:1px solid #cbd5e1; background:#fff; color:#334155; }
+    @media (prefers-reduced-motion: reduce) { .animate-pulse { animation: none !important; } }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans">
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200">
+    <div class="max-w-7xl mx-auto h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <a href="{% url 'index' %}" class="flex items-center gap-2">
+        <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-100 ring-1 ring-brand-200">
+          <svg viewBox="0 0 24 24" class="h-5 w-5 text-brand-600" fill="none" aria-hidden="true">
+            <path d="M12 2a10 10 0 100 20 10 10 0 000-20Zm0 0v20M2 12h20" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </span>
+        <span class="text-lg font-extrabold tracking-tight">Roots to Realities</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-8 text-sm">
+        <a href="{% url 'index' %}" class="hover:text-brand-600">Home</a>
+        <!-- CHANGED: hard path to tour -->
+        <a href="{% url 'zithulele' %}" class="text-brand-600 font-semibold">Start VR Tour</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero-grad">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      
+      <!-- SUCCESS -->
+      <div class="bg-white rounded-3xl ring-1 ring-slate-200 shadow-card overflow-hidden">
+        <div class="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-6 py-5 flex items-center gap-3">
+          <span class="inline-grid place-items-center h-10 w-10 rounded-full bg-white/15">
+            <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" aria-hidden="true"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div>
+            <h1 class="text-xl font-bold">Payment Successful</h1>
+            <p class="text-white/90 text-sm">Access confirmed. You can start the full 360° tour immediately.</p>
+          </div>
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-[1.2fr_.8fr] p-6">
+          <!-- Receipt -->
+          <div class="bg-white rounded-2xl ring-1 ring-slate-200 p-5">
+            <h2 class="text-lg font-semibold">Receipt</h2>
+            <dl class="mt-3 grid grid-cols-2 gap-3 text-sm">
+              <dt class="text-slate-600">Order #</dt><dd class="font-medium" id="orderRef">{{ order.id }}</dd>
+              <dt class="text-slate-600">Amount</dt><dd class="font-medium">${{ order.amount }}</dd>
+              <dt class="text-slate-600">Status</dt><dd class="font-medium text-emerald-700">PAID</dd>
+              <dt class="text-slate-600">Email</dt><dd class="font-medium">{{ order.user_email }}</dd>
+            </dl>
+            <div class="mt-4 flex flex-wrap gap-3">
+              <button id="copyRef" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-300 hover:bg-slate-50">
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><path d="M9 9h9v12H9zM6 3h9v3" stroke="currentColor" stroke-width="1.5"/></svg>
+                Copy reference
+              </button>
+            </div>
+            <p class="mt-3 text-xs text-slate-500">A detailed email receipt has been sent to {{ order.user_email }}.</p>
+          </div>
+        </div>
+      </div>
+
+          <div class="mt-5 flex flex-wrap gap-3">
+            <button id="refreshBtn" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-300 hover:bg-slate-50">
+              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><path d="M4 4v6h6M20 20v-6h-6M20 8a8 8 0 10.001 8.001" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Start Tour
+            </button>
+            <!-- CHANGED: hard path "Continue to Tour" -->
+            <a href="{% url 'zithulele' %}" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 text-white hover:bg-black">Continue to Tour</a>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- Confetti (only if paid) -->
+
+  <canvas id="confetti" class="fixed inset-0 pointer-events-none" aria-hidden="true"></canvas>
+
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-white/80 backdrop-blur mt-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row justify-between items-center text-sm text-slate-600 gap-4">
+      <p>© {% now "Y" %} Roots to Realities. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Copy reference
+    (function() {
+      const btn = document.getElementById('copyRef');
+      if (!btn) return;
+      btn.addEventListener('click', async () => {
+        const ref = document.getElementById('orderRef')?.textContent?.trim() || '';
+        try { await navigator.clipboard.writeText(ref); btn.textContent = 'Copied ✔'; setTimeout(()=>btn.textContent='Copy reference',1500); }
+        catch (_) { alert('Reference: ' + ref); }
+      });
+    })();
+
+    // Add to calendar (.ics)
+    (function(){
+      const a = document.getElementById('dlIcs'); if(!a) return;
+      a.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const start = new Date(), end = new Date(start.getTime()+15*60000);
+        const fmt = d => d.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+        const ics = [
+          'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//RootsToRealities//Receipt//EN',
+          'BEGIN:VEVENT','UID=r2r-'+Date.now(),'DTSTAMP:'+fmt(new Date()),
+          'DTSTART:'+fmt(start),'DTEND:'+fmt(end),
+          'SUMMARY:Roots to Realities — VR Access Confirmed',
+          // CHANGED: hard path to tour in DESCRIPTION
+          'DESCRIPTION:Start your tour at ' + window.location.origin + '/zithulele/#tour',
+          'END:VEVENT','END:VCALENDAR'
+        ].join('\\r\\n');
+        const blob = new Blob([ics], {type:'text/calendar'}), url = URL.createObjectURL(blob);
+        a.href = url; a.download = 'R2R_VR_Receipt.ics'; a.click();
+        setTimeout(()=>URL.revokeObjectURL(url), 1000);
+      });
+    })();
+
+    // Pending: simple manual refresh
+    (function(){ const b=document.getElementById('refreshBtn'); if(b) b.addEventListener('click', ()=>location.reload()); })();
+
+    // Confetti (lightweight, no deps; respects reduced motion)
+    (function(){
+      const canvas=document.getElementById('confetti'); if(!canvas) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const ctx=canvas.getContext('2d'); let w,h; const TAU=2*Math.PI;
+      function size(){ w=canvas.width=innerWidth; h=canvas.height=innerHeight; } size(); addEventListener('resize',size);
+      const N=160, P=Array.from({length:N},()=>({x:Math.random()*w,y:-20-Math.random()*h,r:4+Math.random()*6,c:`hsl(${10+Math.random()*30},85%,${60+Math.random()*20}%)`,vx:-1+Math.random()*2,vy:2+Math.random()*3,a:Math.random()*TAU,va:-.05+Math.random()*.1}));
+      let t0=performance.now(), rid;
+      function tick(t){ const dt=Math.min(32,t-t0); t0=t; ctx.clearRect(0,0,w,h);
+        for(const p of P){ p.x+=p.vx*dt/16; p.y+=p.vy*dt/16; p.a+=p.va*dt/16; if(p.y-p.r>h){p.y=-10; p.x=Math.random()*w;}
+          ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.a); ctx.fillStyle=p.c; ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r); ctx.restore(); }
+        rid=requestAnimationFrame(tick);
+      }
+      rid=requestAnimationFrame(tick); setTimeout(()=>{ cancelAnimationFrame(rid); canvas.remove(); }, 6000);
+    })();
+  </script>
+</body>
+</html>

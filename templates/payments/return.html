@@ -1,0 +1,26 @@
+{% if order and paid %}
+  <h1>Payment Successful</h1>
+  <p>Thank you. Your payment for <strong>Order {{ order.id }}</strong> of <strong>R{{ order.amount }}</strong> was received.</p>
+  <p>A receipt has been emailed to {{ order.user_email }}.</p>
+  <p><a href="{% url 'order_receipt' order.id %}">View receipt</a></p>
+{% elif order and not paid %}
+  <h1>Payment Pending</h1>
+  <p>We are waiting for PayFast to confirm your payment for Order {{ order.id }}. This can take a moment.</p>
+  <p>You will receive an email once confirmed.</p>
+{% else %}
+  <h1>We’re Checking Your Payment</h1>
+  <p>If you completed payment, you’ll receive a confirmation email shortly. If not, please try again.</p>
+{% endif %}
+<p><a href="{% url 'index' %}">Return to home page</a></p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   {% if order and paid %}
+  <h1>Payment Successful</h1>
+  <p>Thank you. Your payment for <strong>Order {{ order.id }}</strong> of <strong>R{{ order.amount }}</strong> was received.</p>
+  <p>A receipt has been emailed to {{ order.user_email }}.</p>
+  <p><a href="{% url 'order_receipt' order.id %}">View receipt</a></p>
+{% elif order and not paid %}
+  <h1>Payment Pending</h1>
+  <p>We are waiting for PayFast to confirm your payment for Order {{ order.id }}. This can take a moment.</p>
+  <p>You will receive an email once confirmed.</p>
+{% else %}
+  <h1>We’re Checking Your Payment</h1>
+  <p>If you completed payment, you’ll receive a confirmation email shortly. If not, please try again.</p>
+{% endif %}

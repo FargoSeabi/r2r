@@ -1,0 +1,189 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Buy Ticket – Roots to Realities</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+    theme: {
+        extend: {
+        colors: { brand: { 500:"#e2623f", 600:"#cf5536" } },
+        boxShadow: { card: "0 10px 24px rgba(2, 6, 23, .06)" }
+        }
+    }
+    }
+</script>
+<style>
+    .card { box-shadow: 0 10px 24px rgba(2, 6, 23, .06); }
+    .brand-grad { background: linear-gradient(135deg, #1a1a1a 0%, #2d4a22 100%); }
+    .step { counter-increment: step; }
+    .step:before {
+    content: counter(step);
+    @apply inline-flex items-center justify-center h-6 w-6 rounded-full bg-brand-500 text-white text-xs font-bold mr-2;
+    }
+</style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+<!-- Header -->
+<header class="brand-grad text-white">
+    <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/20">
+        <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5 text-white"><path d="M12 2a10 10 0 100 20 10 10 0 000-20Zm0 0v20M2 12h20" stroke="currentColor" stroke-width="1.5"/></svg>
+        </span>
+        <span class="font-extrabold tracking-tight">Roots to Realities</span>
+    </div>
+    <div class="text-sm opacity-90">VR Experience Ticket</div>
+    </div>
+</header>
+
+<main class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white rounded-2xl ring-1 ring-slate-200 card p-6 lg:p-8">
+    <div class="grid lg:grid-cols-3 gap-8">
+        <!-- Form -->
+        <section class="lg:col-span-2">
+        <h1 class="text-2xl sm:text-3xl font-black tracking-tight">Your details</h1>
+        <p class="mt-2 text-slate-600">Please complete your information to determine your ticket price and proceed to secure payment.</p>
+
+        <form id="ticketForm" action="{% url 'payfast_checkout' 150 %}" method="post" class="mt-6 space-y-6">
+            {% csrf_token %}
+
+            <div>
+            <div class="step font-semibold text-slate-800">Personal Information</div>
+            <div class="mt-3 grid sm:grid-cols-2 gap-4">
+                <label class="block">
+                <span class="text-sm text-slate-700">Name *</span>
+                <input required name="name" type="text" class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-500 focus:ring-brand-500" placeholder="e.g. Thandi" />
+                </label>
+                <label class="block">
+                <span class="text-sm text-slate-700">Surname *</span>
+                <input required name="surname" type="text" class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-500 focus:ring-brand-500" placeholder="e.g. Ndlovu" />
+                </label>
+            </div>
+
+            <div>
+            <div class="mt-3 grid">
+                <label class="block">
+                <span class="text-sm text-slate-700">Email Address *</span>
+                <input required name="email" type="email" class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-500 focus:ring-brand-500" placeholder="e.g. 4E6Y8@example.com" />
+                </label>
+                <label class="block">
+                <span class="text-sm text-slate-700">Phone Number *</span>
+                <input required name="phone" type="tel" class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-500 focus:ring-brand-500" placeholder="e.g. 012-345-6789" />
+                </label>
+            </div>
+
+            <div class="mt-3 grid sm:grid-cols-3 gap-4">
+                <label class="block">
+                <span class="text-sm text-slate-700">Gender</span>
+                <select name="gender" class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-500 focus:ring-brand-500">
+                    <option value="" selected>Prefer not to say</option>
+                    <option>Female</option>
+                    <option>Male</option>
+                    <option>Non-binary</option>
+                    <option>Other</option>
+                </select>
+                </label>
+                <label class="block">
+                <span class="text-sm text-slate-700">Age *</span>
+                <input required name="age" id="age" type="number" min="1" max="120" class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-500 focus:ring-brand-500" placeholder="e.g. 22" />
+                </label>
+                <label class="block sm:col-span-1">
+                <span class="text-sm text-slate-700">Designation *</span>
+                <select required name="designation" id="designation" class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-500 focus:ring-brand-500">
+                    <option value="adult" selected>Adult</option>
+                    <option value="student">Uni Student</option>
+                    <option value="child">13 and under</option>
+                    <option value="pensioner">Pensioner</option>
+                </select>
+                </label>
+                
+            </div>
+
+            <div class="mt-3 grid">
+                <label class="block">
+                <span class="text-sm text-slate-700">ID Number *</span>
+                <input required name="idnum" type="text" class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-500 focus:ring-brand-500" placeholder="e.g. 0505161170072" />
+                </label>
+            </div>
+            </div>
+
+            <div>
+            <div class="step font-semibold text-slate-800">Price</div>
+            <div class="mt-3 flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <div class="text-sm text-slate-700">
+                {% comment %}
+                <div>Category: <span id="priceLabel" class="font-semibold">Adult</span></div>
+                <div class="text-xs text-slate-500">R150 Adult · R75 Student/Under 13/Pensioner</div>
+                {% endcomment %}
+                </div>
+                <div class="text-2xl font-extrabold text-emerald-700">R <span id="amount">150.00</span></div>
+            </div>
+            <p class="mt-2 text-xs text-slate-500">Price updates automatically when you change age or designation. Final price is confirmed on the next step.</p>
+            </div>
+
+            <div class="pt-2 flex items-center gap-3">
+            <button type="submit" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold">
+                Continue to Secure Payment
+                <a href=""></a>
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M5 12h12M13 5l7 7-7 7"/></svg>
+            </button>
+            <span class="text-xs text-slate-500">You’ll enter your card details on the PayFast page.</span>
+            </div>
+        </form>
+        </section>
+
+        <!-- Helpful panel -->
+        <aside>
+        <div class="rounded-2xl overflow-hidden ring-1 ring-slate-200">
+            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop" alt="" class="w-full h-44 object-cover" />
+            <div class="p-4">
+            <div class="font-semibold">What happens next?</div>
+            <ul class="mt-2 text-sm text-slate-600 space-y-1">
+                <li>• We calculate your ticket price from your age/designation.</li>
+                <li>• You’re redirected to <strong>PayFast</strong> to pay securely.</li>
+                <li>• On success, you’ll return to our site with your receipt.</li>
+            </ul>
+            <div class="mt-4 text-xs text-slate-500">We don’t store your card details. Payments are processed by PayFast.</div>
+            </div>
+        </div>
+        </aside>
+    </div>
+    </div>
+</main>
+
+<script>
+    (function () {
+    const ageEl = document.getElementById('age');
+    const desEl = document.getElementById('designation');
+    const amountEl = document.getElementById('amount');
+    const labelEl = document.getElementById('priceLabel');
+
+    function compute() {
+        const age = parseInt(ageEl.value || "0", 10);
+        const des = (desEl.value || "").toLowerCase();
+
+        let amount = 150.00;
+        let label = "Adult";
+
+        if (des === "student" || des === "pensioner" || age <= 13 || des === "child") {
+        amount = 75.00;
+        label = (des === "student") ? "Uni Student"
+                : (des === "pensioner") ? "Pensioner"
+                : (age <= 13 || des === "child") ? "13 and under"
+                : "Concession";
+        }
+        amountEl.textContent = amount.toFixed(2);
+        labelEl.textContent = label;
+    }
+
+    ageEl.addEventListener('input', compute);
+    desEl.addEventListener('change', compute);
+    compute(); // initial
+    })();
+</script>
+</body>
+</html>
