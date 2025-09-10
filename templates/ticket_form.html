@@ -17,315 +17,14 @@
     }
 </script>
 <style>
-  :root { --brand-500:#e2623f; --brand-600:#cf5536; --ink:#0f172a; --muted:#475569; }
-
-  /* Header re-skin to match light/clean aesthetic */
-  .brand-grad{
-    background:#fff !important; color:#0f172a !important;
-    border-bottom:1px solid rgba(15,23,42,.08);
-  }
-  .brand-grad .ring-white\/20{ box-shadow:none; }
-  .brand-grad .bg-white\/10{ background:rgba(226,98,63,.12); border:1px solid rgba(226,98,63,.25); }
-  .brand-grad .text-white{ color:var(--brand-500) !important; }
-  .brand-grad .font-extrabold{ color:#0f172a; }
-  .brand-grad .opacity-90{ color:#334155; }
-
-  /* Page base polish */
-  body{ background:#f8fafc; color:#0f172a; }
-  .card{ box-shadow:0 10px 24px rgba(2, 6, 23, .06); position:relative; overflow:hidden; }
-  h1{ letter-spacing:-.02em; color:#0b1220; }
-  p, .text-slate-600{ color:#556274; }
-
-  /* ---- Indeterminate "progress" bar at top of the main card ---- */
-  .card::before{
-    content:"";
-    position:absolute; inset:0 0 auto 0; height:6px;
-    background:linear-gradient(to right, rgba(226,98,63,.18), rgba(226,98,63,.08));
-  }
-  .card::after{
-    content:""; position:absolute; inset:0 auto auto 0; height:6px; width:32%;
-    background:linear-gradient(90deg, var(--brand-500), var(--brand-600));
-    border-top-right-radius:6px; border-bottom-right-radius:6px;
-    animation: r2r-progress 2.8s ease-in-out infinite;
-  }
-  @keyframes r2r-progress {
-    0% { width:10%; opacity:.85; transform:translateX(0); }
-    50%{ width:65%; opacity:1;   transform:translateX(25%); }
-    100%{ width:10%; opacity:.85; transform:translateX(95%); }
-  }
-
-  /* ---- Ribbon headline injected before the main form section ---- */
-  .lg\:col-span-2::before{
-    content:"Book your tour now";
-    display:inline-flex; align-items:center; gap:.5rem;
-    font-weight:800; letter-spacing:.2px;
-    color:#0f172a; background:linear-gradient(180deg,#fff, #fff);
-    border:1px solid rgba(226,98,63,.35);
-    padding:.375rem .75rem; border-radius:9999px;
-    box-shadow:0 4px 12px rgba(226,98,63,.10);
-    margin-bottom:.75rem;
-  }
-  .lg\:col-span-2::before{
-    /* add a small icon via mask without HTML changes */
-    --i:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2l3 6 6 .9-4.5 4.3 1 6-5.5-3-5.5 3 1-6L3 8.9 9 8z' fill='black'/></svg>");
-  }
-  .lg\:col-span-2::before{
-    position:relative;
-  }
-  .lg\:col-span-2::before:has(*){}
-
-  /* Orange form border (styling only; no DOM changes) */
-  form#ticketForm{
-    border:2px solid rgba(226,98,63,.45);
-    border-radius:1rem; padding:1rem;
-    background:linear-gradient(180deg,#ffffff 0%, #fff 60%, #fff 100%);
-    box-shadow:0 6px 18px rgba(2,6,23,.04);
-  }
-
-  /* Step chip (use plain CSS; no Tailwind build) */
-  .step{ counter-increment: step; position:relative; padding-left:.25rem; color:#0f172a; }
-  .step:before{
+    .card { box-shadow: 0 10px 24px rgba(2, 6, 23, .06); }
+    .brand-grad { background: linear-gradient(135deg, #1a1a1a 0%, #2d4a22 100%); }
+    .step { counter-increment: step; }
+    .step:before {
     content: counter(step);
-    display:inline-flex; align-items:center; justify-content:center;
-    height:1.5rem; width:1.5rem; margin-right:.5rem;
-    border-radius:9999px; background:var(--brand-500); color:#fff;
-    font-weight:700; font-size:.75rem; vertical-align:middle;
-  }
-
-  /* Inputs: clarity, accessible focus */
-  input, select{
-    background:#fff; border:1px solid #e2e8f0 !important;
-    padding:.625rem .75rem !important; border-radius:.85rem !important;
-    transition:border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
-  }
-  input::placeholder{ color:#94a3b8; }
-  input:focus, select:focus{
-    outline:0; border-color: var(--brand-500) !important;
-    box-shadow: 0 0 0 3px rgba(226,98,63,.15);
-  }
-
-  /* Labels with CSS-only icons for scannability */
-  label > span{ display:flex; align-items:center; gap:.5rem; color:#1f2937; font-weight:600; }
-  label > span::before{
-    content:""; display:inline-block; height:1rem; width:1rem;
-    background: var(--brand-500); transform:translateY(1px);
-    -webkit-mask-size:contain; -webkit-mask-repeat:no-repeat; -webkit-mask-position:center;
-            mask-size:contain;            mask-repeat:no-repeat;            mask-position:center;
-  }
-  /* Name/Surname */
-  label:has(input[name="name"]) > span::before,
-  label:has(input[name="surname"]) > span::before{
-    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7.5 7.5a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0z'/><path d='M2.25 20.25a9.75 9.75 0 1119.5 0v.75H2.25v-.75z'/></svg>");
-            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7.5 7.5a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0z'/><path d='M2.25 20.25a9.75 9.75 0 1119.5 0v.75H2.25v-.75z'/></svg>");
-  }
-  /* Email */
-  label:has(input[name="email"]) > span::before{
-    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M3 6.75A2.75 2.75 0 015.75 4h12.5A2.75 2.75 0 0121 6.75v10.5A2.75 2.75 0 0118.25 20H5.75A2.75 2.75 0 013 17.25V6.75z'/><path d='M4 7l8 6 8-6'/></svg>");
-            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M3 6.75A2.75 2.75 0 015.75 4h12.5A2.75 2.75 0 0121 6.75v10.5A2.75 2.75 0 0118.25 20H5.75A2.75 2.75 0 013 17.25V6.75z'/><path d='M4 7l8 6 8-6'/></svg>");
-  }
-  /* Phone */
-  label:has(input[name="phone"]) > span::before{
-    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6.5 3h3a1 1 0 011 1v2a1 1 0 01-1 1H8.5a.5.5 0 00-.5.5C8 12 12 16 16.5 16a.5.5 0 00.5-.5V14a1 1 0 011-1h2a1 1 0 011 1v3a2 2 0 01-2 2C10.82 19 5 13.18 5 6a2 2 0 012-2z'/></svg>");
-            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6.5 3h3a1 1 0 011 1v2a1 1 0 01-1 1H8.5a.5.5 0 00-.5.5C8 12 12 16 16.5 16a.5.5 0 00.5-.5V14a1 1 0 011-1h2a1 1 0 011 1v3a2 2 0 01-2 2C10.82 19 5 13.18 5 6a2 2 0 012-2z'/></svg>");
-  }
-  /* Gender */
-  label:has(select[name="gender"]) > span::before{
-    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='5'/><path d='M19 5h-4v4'/><path d='M19 5l-6 6'/></svg>");
-            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='5'/><path d='M19 5h-4v4'/><path d='M19 5l-6 6'/></svg>");
-  }
-  /* Age (calendar) */
-  label:has(input[name="age"]) > span::before{
-    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 3v2M17 3v2M4 7h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7z'/></svg>");
-            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 3v2M17 3v2M4 7h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7z'/></svg>");
-  }
-  /* Designation (briefcase) */
-  label:has(select[name="designation"]) > span::before{
-    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M9 4h6a2 2 0 012 2v1h2a2 2 0 012 2v8a3 3 0 01-3 3H6a3 3 0 01-3-3V9a2 2 0 012-2h2V6a2 2 0 012-2z'/></svg>");
-            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M9 4h6a2 2 0 012 2v1h2a2 2 0 012 2v8a3 3 0 01-3 3H6a3 3 0 01-3-3V9a2 2 0 012-2h2V6a2 2 0 012-2z'/></svg>");
-  }
-  /* ID Number (card) */
-  label:has(input[name="idnum"]) > span::before{
-    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='14' rx='2'/><circle cx='8' cy='12' r='2.25'/><rect x='12' y='10' width='7' height='1.5'/><rect x='12' y='13' width='5' height='1.5'/></svg>");
-            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='14' rx='2'/><circle cx='8' cy='12' r='2.25'/><rect x='12' y='10' width='7' height='1.5'/><rect x='12' y='13' width='5' height='1.5'/></svg>");
-  }
-
-  /* Price panel visual elevation */
-  .border-slate-200.bg-slate-50.p-4{
-    background:linear-gradient(180deg, #f8fafc 0%, #ffffff 100%) !important;
-    border:1px solid #e2e8f0 !important; border-radius:1rem;
-  }
-  #amount{ font-variant-numeric:tabular-nums; }
-  #amount::before{
-    content:""; display:inline-block; height:1.1rem; width:1.1rem; margin-right:.35rem; transform:translateY(2px);
-    background: currentColor;
-    -webkit-mask: url("data:image/svg+xml;utf8,<svg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M3 8.25A2.25 2.25 0 015.25 6h13.5A2.25 2.25 0 0121 8.25v2.25a1.5 1.5 0 110 3v2.25A2.25 2.25 0 0118.75 18H5.25A2.25 2.25 0 013 15.75V13.5a1.5 1.5 0 110-3V8.25z' stroke='black' stroke-width='1.5'/></svg>") center/contain no-repeat;
-            mask: url("data:image/svg+xml;utf8,<svg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M3 8.25A2.25 2.25 0 015.25 6h13.5A2.25 2.25 0 0121 8.25v2.25a1.5 1.5 0 110 3v2.25A2.25 2.25 0 0118.75 18H5.25A2.25 2.25 0 013 15.75V13.5a1.5 1.5 0 110-3V8.25z' stroke='black' stroke-width='1.5'/></svg>") center/contain no-repeat;
-  }
-
-  /* Button */
-  button[type="submit"]{
-    background:var(--brand-500) !important;
-    border:1px solid rgba(226,98,63,.25);
-    box-shadow:0 6px 16px rgba(226,98,63,.25);
-    transition:transform .06s ease, box-shadow .2s ease, background .2s ease;
-  }
-  button[type="submit"]:hover{ background:var(--brand-600) !important; box-shadow:0 8px 20px rgba(207,85,54,.28); transform:translateY(-1px); }
-  button[type="submit"]:active{ transform:translateY(0); box-shadow:0 3px 10px rgba(207,85,54,.22); }
-
-  /* Helper microcopy colors */
-  .text-slate-700{ color:#334155 !important; }
-  .text-slate-500{ color:#64748b !important; }
-  .text-emerald-700{ color:#0f766e !important; }
-
-  /* Image edge harmony on aside */
-  aside img{ border-bottom-left-radius:0; border-bottom-right-radius:0; }
+    @apply inline-flex items-center justify-center h-6 w-6 rounded-full bg-brand-500 text-white text-xs font-bold mr-2;
+    }
 </style>
-
-<style>
-    
-  :root { --brand-500:#e2623f; --brand-600:#cf5536; --ink:#0f172a; --muted:#475569; }
-
-  /* Header re-skin to match the light aesthetic shown */
-  .brand-grad{
-    background: #fff !important;
-    color:#0f172a !important;
-    border-bottom:1px solid rgba(15,23,42,.08);
-  }
-  .brand-grad .ring-white\/20{ box-shadow:none; }
-  .brand-grad .bg-white\/10{ background:rgba(226,98,63,.12); border:1px solid rgba(226,98,63,.25); }
-  .brand-grad .text-white{ color:var(--brand-500) !important; }
-  .brand-grad .font-extrabold{ color:#0f172a; }
-  .brand-grad .opacity-90{ color:#334155; }
-
-  /* Page base polish */
-  body{ background:#f8fafc; color:#0f172a; }
-  .card{ box-shadow:0 10px 24px rgba(2, 6, 23, .06); }
-  h1{ letter-spacing:-.02em; }
-  h1, .font-black{ color:#0b1220; }
-  p, .text-slate-600{ color:#556274; }
-
-  /* Numbered step chip (Tailwind @apply doesn't run here; do it in CSS) */
-  .step{ counter-increment: step; position:relative; padding-left:.25rem; }
-  .step:before{
-    content: counter(step);
-    display:inline-flex; align-items:center; justify-content:center;
-    height:1.5rem; width:1.5rem; margin-right:.5rem;
-    border-radius:9999px; background:var(--brand-500); color:#fff;
-    font-weight:700; font-size:.75rem; vertical-align:middle;
-  }
-
-  /* Inputs: larger targets, soft borders, clear focus */
-  input, select{
-    background:#fff;
-    border:1px solid #e2e8f0 !important;
-    padding:.625rem .75rem !important;
-    border-radius: .85rem !important;
-    transition:border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
-  }
-  input::placeholder{ color:#94a3b8; }
-  input:focus, select:focus{
-    outline:0; border-color: var(--brand-500) !important;
-    box-shadow: 0 0 0 3px rgba(226,98,63,.15);
-  }
-
-  /* Button refinement */
-  button[type="submit"]{
-    background:var(--brand-500) !important;
-    border:1px solid rgba(226,98,63,.25);
-    box-shadow:0 6px 16px rgba(226,98,63,.25);
-    transition:transform .06s ease, box-shadow .2s ease, background .2s ease;
-  }
-  button[type="submit"]:hover{ background:var(--brand-600) !important; box-shadow:0 8px 20px rgba(207,85,54,.28); transform:translateY(-1px); }
-  button[type="submit"]:active{ transform:translateY(0); box-shadow:0 3px 10px rgba(207,85,54,.22); }
-
-  /* Price panel */
-  .border-slate-200.bg-slate-50.p-4{
-    background:linear-gradient(180deg, #f8fafc 0%, #ffffff 100%) !important;
-    border:1px solid #e2e8f0 !important;
-  }
-  #amount{ font-variant-numeric:tabular-nums; }
-  /* Add a ticket icon before the amount (CSS-only) */
-  #amount::before{
-    content:"";
-    display:inline-block; height:1.1rem; width:1.1rem; margin-right:.35rem; transform:translateY(2px);
-    background: currentColor;
-    -webkit-mask: url("data:image/svg+xml;utf8,<svg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M3 8.25A2.25 2.25 0 015.25 6h13.5A2.25 2.25 0 0121 8.25v2.25a1.5 1.5 0 110 3v2.25A2.25 2.25 0 0118.75 18H5.25A2.25 2.25 0 013 15.75V13.5a1.5 1.5 0 110-3V8.25z' stroke='black' stroke-width='1.5'/></svg>") center/contain no-repeat;
-            mask: url("data:image/svg+xml;utf8,<svg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M3 8.25A2.25 2.25 0 015.25 6h13.5A2.25 2.25 0 0121 8.25v2.25a1.5 1.5 0 110 3v2.25A2.25 2.25 0 0118.75 18H5.25A2.25 2.25 0 013 15.75V13.5a1.5 1.5 0 110-3V8.25z' stroke='black' stroke-width='1.5'/></svg>") center/contain no-repeat;
-  }
-
-  /* Side panel image rounding harmony */
-  aside img{ border-bottom-left-radius:0; border-bottom-right-radius:0; }
-  aside .p-4 .font-semibold{ color:#0f172a; }
-  aside .p-4 .text-xs{ color:#64748b; }
-
-  /* ---------- Iconography via CSS ONLY (no HTML changes) ---------- */
-  /* Generic icon builder */
-  label > span{
-    display:flex; align-items:center; gap:.5rem;
-    color:#1f2937;
-    font-weight:600;
-  }
-  label > span::before{
-    content:"";
-    display:inline-block; height:1rem; width:1rem; color:var(--brand-500);
-    background: currentColor;
-    transform:translateY(1px);
-  }
-  /* Name */
-  label:has(input[name="name"]) > span::before{
-    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7.5 7.5a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0z'/><path d='M2.25 20.25a9.75 9.75 0 1119.5 0v.75H2.25v-.75z'/></svg>") center/contain no-repeat;
-            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7.5 7.5a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0z'/><path d='M2.25 20.25a9.75 9.75 0 1119.5 0v.75H2.25v-.75z'/></svg>") center/contain no-repeat;
-  }
-  /* Surname (same user icon) */
-  label:has(input[name="surname"]) > span::before{ -webkit-mask:inherit; mask:inherit; }
-
-  /* Email */
-  label:has(input[name="email"]) > span::before{
-    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M3 6.75A2.75 2.75 0 015.75 4h12.5A2.75 2.75 0 0121 6.75v10.5A2.75 2.75 0 0118.25 20H5.75A2.75 2.75 0 013 17.25V6.75z'/><path d='M4 7l8 6 8-6'/></svg>") center/contain no-repeat;
-            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M3 6.75A2.75 2.75 0 015.75 4h12.5A2.75 2.75 0 0121 6.75v10.5A2.75 2.75 0 0118.25 20H5.75A2.75 2.75 0 013 17.25V6.75z'/><path d='M4 7l8 6 8-6'/></svg>") center/contain no-repeat;
-  }
-
-  /* Phone */
-  label:has(input[name="phone"]) > span::before{
-    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6.5 3h3a1 1 0 011 1v2a1 1 0 01-1 1H8.5a.5.5 0 00-.5.5C8 12 12 16 16.5 16a.5.5 0 00.5-.5V14a1 1 0 011-1h2a1 1 0 011 1v3a2 2 0 01-2 2C10.82 19 5 13.18 5 6a2 2 0 012-2z'/></svg>") center/contain no-repeat;
-            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6.5 3h3a1 1 0 011 1v2a1 1 0 01-1 1H8.5a.5.5 0 00-.5.5C8 12 12 16 16.5 16a.5.5 0 00.5-.5V14a1 1 0 011-1h2a1 1 0 011 1v3a2 2 0 01-2 2C10.82 19 5 13.18 5 6a2 2 0 012-2z'/></svg>") center/contain no-repeat;
-  }
-
-  /* Gender */
-  label:has(select[name="gender"]) > span::before{
-    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 7a5 5 0 110 10 5 5 0 010-10z'/><path d='M19 5l-4 0 0 4'/><path d='M19 5l-6 6'/></svg>") center/contain no-repeat;
-            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 7a5 5 0 110 10 5 5 0 010-10z'/><path d='M19 5l-4 0 0 4'/><path d='M19 5l-6 6'/></svg>") center/contain no-repeat;
-  }
-
-  /* Age (calendar) */
-  label:has(input[name="age"]) > span::before{
-    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 3v2M17 3v2M4 7h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7z'/></svg>") center/contain no-repeat;
-            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 3v2M17 3v2M4 7h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7z'/></svg>") center/contain no-repeat;
-  }
-
-  /* Designation (briefcase) */
-  label:has(select[name="designation"]) > span::before{
-    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M9 4h6a2 2 0 012 2v1h2a2 2 0 012 2v8a3 3 0 01-3 3H6a3 3 0 01-3-3V9a2 2 0 012-2h2V6a2 2 0 012-2z'/></svg>") center/contain no-repeat;
-            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M9 4h6a2 2 0 012 2v1h2a2 2 0 012 2v8a3 3 0 01-3 3H6a3 3 0 01-3-3V9a2 2 0 012-2h2V6a2 2 0 012-2z'/></svg>") center/contain no-repeat;
-  }
-
-  /* ID Number (id card) */
-  label:has(input[name="idnum"]) > span::before{
-    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='14' rx='2'/><circle cx='8' cy='12' r='2.25'/><rect x='12' y='10' width='7' height='1.5'/><rect x='12' y='13' width='5' height='1.5'/></svg>") center/contain no-repeat;
-            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='14' rx='2'/><circle cx='8' cy='12' r='2.25'/><rect x='12' y='10' width='7' height='1.5'/><rect x='12' y='13' width='5' height='1.5'/></svg>") center/contain no-repeat;
-  }
-
-  /* Helper microcopy colors */
-  .text-slate-700{ color:#334155 !important; }
-  .text-slate-500{ color:#64748b !important; }
-  .text-emerald-700{ color:#0f766e !important; }
-
-  /* Card/section spacing harmony for desktop */
-  @media (min-width:1024px){
-    main .grid.lg\:grid-cols-3{ column-gap:2rem; }
-  }
-</style>
-
 </head>
 <body class="bg-slate-50 text-slate-900">
 <!-- Header -->
@@ -347,9 +46,9 @@
         <!-- Form -->
         <section class="lg:col-span-2">
         <h1 class="text-2xl sm:text-3xl font-black tracking-tight">Your details</h1>
-        <p class="mt-2 text-slate-600">Please complete your information to determine your ticket price and proceed to secure payment.</p>
+        <p class="mt-2 text-slate-600">Please complete your information and proceed to secure payment. All tickets are R35.</p>
 
-        <form id="ticketForm" action="{% url 'payfast_checkout' 150 %}" method="post" class="mt-6 space-y-6">
+        <form id="ticketForm" action="{% url 'payfast_checkout' 35 %}" method="post" class="mt-6 space-y-6">
             {% csrf_token %}
 
             <div>
@@ -377,7 +76,7 @@
                 </label>
             </div>
 
-            <div class="mt-3 grid sm:grid-cols-3 gap-4">
+            <div class="mt-3 grid sm:grid-cols-2 gap-4">
                 <label class="block">
                 <span class="text-sm text-slate-700">Gender</span>
                 <select name="gender" class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-500 focus:ring-brand-500">
@@ -392,38 +91,18 @@
                 <span class="text-sm text-slate-700">Age *</span>
                 <input required name="age" id="age" type="number" min="1" max="120" class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-500 focus:ring-brand-500" placeholder="e.g. 22" />
                 </label>
-                <label class="block sm:col-span-1">
-                <span class="text-sm text-slate-700">Designation *</span>
-                <select required name="designation" id="designation" class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-500 focus:ring-brand-500">
-                    <option value="adult" selected>Adult</option>
-                    <option value="student">Uni Student</option>
-                    <option value="child">13 and under</option>
-                    <option value="pensioner">Pensioner</option>
-                </select>
-                </label>
-                
-            </div>
-
-            <div class="mt-3 grid">
-                <label class="block">
-                <span class="text-sm text-slate-700">ID Number *</span>
-                <input required name="idnum" type="text" class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-500 focus:ring-brand-500" placeholder="e.g. 0505161170072" />
-                </label>
             </div>
             </div>
 
             <div>
-            <div class="step font-semibold text-slate-800">Price</div>
             <div class="mt-3 flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-4">
                 <div class="text-sm text-slate-700">
-                {% comment %}
-                <div>Category: <span id="priceLabel" class="font-semibold">Adult</span></div>
-                <div class="text-xs text-slate-500">R150 Adult · R75 Student/Under 13/Pensioner</div>
-                {% endcomment %}
+                <div>Ticket Price: <span id="priceLabel" class="font-semibold">Standard Rate</span></div>
+                <div class="text-xs text-slate-500">R35 for everyone - No age restrictions or categories</div>
                 </div>
-                <div class="text-2xl font-extrabold text-emerald-700">R <span id="amount">150.00</span></div>
+                <div class="text-2xl font-extrabold text-emerald-700">R <span id="amount">35.00</span></div>
             </div>
-            <p class="mt-2 text-xs text-slate-500">Price updates automatically when you change age or designation. Final price is confirmed on the next step.</p>
+            <p class="mt-2 text-xs text-slate-500">Fixed price for all visitors. Final price is confirmed on the next step.</p>
             </div>
 
             <div class="pt-2 flex items-center gap-3">
@@ -440,13 +119,13 @@
         <!-- Helpful panel -->
         <aside>
         <div class="rounded-2xl overflow-hidden ring-1 ring-slate-200">
-            <img src="https://www.krugerpark.co.za/images/magubane-xhosa042-786x516.jpg" alt="" class="w-full h-44 object-cover" />
+            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop" alt="" class="w-full h-44 object-cover" />
             <div class="p-4">
             <div class="font-semibold">What happens next?</div>
             <ul class="mt-2 text-sm text-slate-600 space-y-1">
-                <li>• We calculate your ticket price from your age/designation.</li>
-                <li>• You’re redirected to <strong>PayFast</strong> to pay securely.</li>
-                <li>• On success, you’ll return to our site with your receipt.</li>
+                <li>• All tickets are R35 - simple pricing for everyone.</li>
+                <li>• You're redirected to <strong>PayFast</strong> to pay securely.</li>
+                <li>• On success, you'll return to our site with your receipt.</li>
             </ul>
             <div class="mt-4 text-xs text-slate-500">We don’t store your card details. Payments are processed by PayFast.</div>
             </div>
@@ -456,34 +135,213 @@
     </div>
 </main>
 
+<!-- Chatbot Widget -->
+<div id="chatbot" class="fixed bottom-6 right-6 z-50">
+    <!-- Chat Button -->
+    <button id="chatToggle" class="h-14 w-14 bg-brand-500 hover:bg-brand-600 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-105">
+        <svg id="chatIcon" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+        </svg>
+        <svg id="closeIcon" class="h-6 w-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
+
+    <!-- Chat Window -->
+    <div id="chatWindow" class="absolute bottom-16 right-0 w-80 h-96 bg-white rounded-2xl shadow-2xl ring-1 ring-slate-200 hidden flex-col overflow-hidden">
+        <!-- Chat Header -->
+        <div class="bg-brand-500 text-white p-4 flex items-center gap-3">
+            <div class="h-8 w-8 bg-white/20 rounded-full flex items-center justify-center">
+                <span class="text-sm font-semibold">🎫</span>
+            </div>
+            <div>
+                <h3 class="font-semibold">Ticket Assistant</h3>
+                <p class="text-xs text-brand-100">Help with pricing & booking</p>
+            </div>
+        </div>
+
+        <!-- Chat Messages -->
+        <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-3">
+            <div class="flex gap-2">
+                <div class="h-6 w-6 bg-brand-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="text-xs">🎫</span>
+                </div>
+                <div class="bg-slate-100 rounded-lg p-3 text-sm">
+                    <p>Hi! I'm here to help with your ticket booking. I can assist with:</p>
+                    <ul class="mt-2 space-y-1 text-xs">
+                        <li>• Ticket pricing information</li>
+                        <li>• Payment process</li>
+                        <li>• VR experience details</li>
+                        <li>• General booking help</li>
+                    </ul>
+                    <p class="mt-2">What would you like to know?</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Input -->
+        <div class="p-4 border-t border-slate-200">
+            <div class="flex gap-2">
+                <input id="chatInput" type="text" placeholder="Ask about tickets, pricing, or discounts..." class="flex-1 px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent">
+                <button id="sendMessage" class="px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-sm font-medium transition-colors">
+                    Send
+                </button>
+            </div>
+            <div class="mt-2 flex gap-1 flex-wrap">
+                <button class="quick-reply px-2 py-1 bg-slate-100 hover:bg-slate-200 text-xs rounded-full transition-colors">Ticket prices</button>
+                <button class="quick-reply px-2 py-1 bg-slate-100 hover:bg-slate-200 text-xs rounded-full transition-colors">Simple pricing</button>
+                <button class="quick-reply px-2 py-1 bg-slate-100 hover:bg-slate-200 text-xs rounded-full transition-colors">Payment help</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     (function () {
     const ageEl = document.getElementById('age');
     const desEl = document.getElementById('designation');
     const amountEl = document.getElementById('amount');
     const labelEl = document.getElementById('priceLabel');
+    const formEl = document.getElementById('ticketForm');
 
     function compute() {
-        const age = parseInt(ageEl.value || "0", 10);
-        const des = (desEl.value || "").toLowerCase();
-
-        let amount = 150.00;
-        let label = "Adult";
-
-        if (des === "student" || des === "pensioner" || age <= 13 || des === "child") {
-        amount = 75.00;
-        label = (des === "student") ? "Uni Student"
-                : (des === "pensioner") ? "Pensioner"
-                : (age <= 13 || des === "child") ? "13 and under"
-                : "Concession";
-        }
+        // Fixed price for everyone
+        const amount = 35.00;
+        const label = "Standard Rate";
+        
         amountEl.textContent = amount.toFixed(2);
         labelEl.textContent = label;
+        
+        // Update form action with the fixed amount
+        const baseUrl = '{% url "payfast_checkout" 0 %}'.replace('/0/', '/' + Math.round(amount) + '/');
+        formEl.action = baseUrl;
     }
 
-    ageEl.addEventListener('input', compute);
-    desEl.addEventListener('change', compute);
-    compute(); // initial
+    // Only need to compute once since price is fixed
+    compute();
+    })();
+    
+    // Chatbot functionality
+    (() => {
+        const chatToggle = document.getElementById('chatToggle');
+        const chatWindow = document.getElementById('chatWindow');
+        const chatIcon = document.getElementById('chatIcon');
+        const closeIcon = document.getElementById('closeIcon');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendMessage');
+        const quickReplies = document.querySelectorAll('.quick-reply');
+        
+        let isOpen = false;
+        
+        // Ticket-specific responses
+        const responses = {
+            'prices': 'All tickets are R35 for everyone! We have simplified our pricing - no age restrictions or categories.',
+            'discount': 'Great news! Our tickets are already at a low price of R35 for everyone - no discounts needed!',
+            'payment': 'After filling out your details, you\'ll be redirected to PayFast for secure payment. We accept all major credit cards and EFT.',
+            'experience': 'Our VR experience offers immersive 360° tours of authentic South African villages. Each session lasts 70-95 minutes.',
+            'age': 'Age doesn\'t affect the price - everyone pays the same R35 for our VR experience!',
+            'student': 'Students pay the same R35 as everyone else - we have simplified our pricing for all visitors!',
+            'help': 'I can help with ticket pricing, payment process, or VR experience details. What would you like to know?',
+            'default': 'For specific questions about your booking, please complete the form above or contact our support team.'
+        };
+        
+        function toggleChat() {
+            isOpen = !isOpen;
+            if (isOpen) {
+                chatWindow.classList.remove('hidden');
+                chatWindow.classList.add('flex');
+                chatIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+                chatInput.focus();
+            } else {
+                chatWindow.classList.add('hidden');
+                chatWindow.classList.remove('flex');
+                chatIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+        
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex gap-2' + (isUser ? ' justify-end' : '');
+            
+            if (isUser) {
+                messageDiv.innerHTML = `
+                    <div class="bg-brand-500 text-white rounded-lg p-3 max-w-xs">
+                        <p class="text-sm">${message}</p>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="h-6 w-6 bg-brand-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span class="text-xs">🎫</span>
+                    </div>
+                    <div class="bg-slate-100 rounded-lg p-3 max-w-xs">
+                        <p class="text-sm">${message}</p>
+                    </div>
+                `;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function getResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('ticket prices')) {
+                return responses.prices;
+            } else if (lowerMessage.includes('discount') || lowerMessage.includes('student discount') || lowerMessage.includes('concession')) {
+                return responses.discount;
+            } else if (lowerMessage.includes('payment') || lowerMessage.includes('pay') || lowerMessage.includes('card')) {
+                return responses.payment;
+            } else if (lowerMessage.includes('experience') || lowerMessage.includes('vr') || lowerMessage.includes('tour')) {
+                return responses.experience;
+            } else if (lowerMessage.includes('age') || lowerMessage.includes('child') || lowerMessage.includes('13')) {
+                return responses.age;
+            } else if (lowerMessage.includes('student') || lowerMessage.includes('university')) {
+                return responses.student;
+            } else if (lowerMessage.includes('help') || lowerMessage.includes('support')) {
+                return responses.help;
+            } else {
+                return responses.default;
+            }
+        }
+        
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            addMessage(message, true);
+            chatInput.value = '';
+            
+            setTimeout(() => {
+                const response = getResponse(message);
+                addMessage(response, false);
+            }, 500);
+        }
+        
+        // Event listeners
+        chatToggle.addEventListener('click', toggleChat);
+        sendButton.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // Quick reply buttons
+        quickReplies.forEach(button => {
+            button.addEventListener('click', () => {
+                const message = button.textContent;
+                addMessage(message, true);
+                setTimeout(() => {
+                    const response = getResponse(message);
+                    addMessage(response, false);
+                }, 500);
+            });
+        });
     })();
 </script>
 </body>

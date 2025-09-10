@@ -221,5 +221,197 @@
     </div>
   </footer>
 
+  <!-- Chatbot Widget -->
+  <div id="chatToggle" class="fixed bottom-6 right-6 z-50 bg-brand-500 hover:bg-brand-600 text-white rounded-full p-4 shadow-lg cursor-pointer transition-all duration-300 hover:scale-105">
+    <svg id="chatIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+    </svg>
+    <svg id="closeIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+    </svg>
+  </div>
+
+  <div id="chatWindow" class="fixed bottom-24 right-6 z-50 w-80 bg-white rounded-lg shadow-xl border border-slate-200 hidden flex-col max-h-96">
+    <!-- Chat Header -->
+    <div class="bg-brand-500 text-white p-4 rounded-t-lg">
+      <div class="flex items-center gap-2">
+        <div class="h-8 w-8 bg-white/20 rounded-full flex items-center justify-center">
+          <span class="text-sm">💳</span>
+        </div>
+        <div>
+          <h3 class="font-semibold text-sm">Checkout Support</h3>
+          <p class="text-xs text-brand-100">Need help with your order?</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Messages -->
+    <div id="chatMessages" class="flex-1 p-4 space-y-3 overflow-y-auto max-h-48">
+      <div class="flex gap-2">
+        <div class="h-6 w-6 bg-brand-100 rounded-full flex items-center justify-center flex-shrink-0">
+          <span class="text-xs">💳</span>
+        </div>
+        <div class="bg-slate-100 rounded-lg p-3 max-w-xs">
+          <p class="text-sm">I'm here to help with your checkout process. Ask about payment, security, or your order!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Replies -->
+    <div class="p-3 border-t border-slate-100">
+      <div class="flex flex-wrap gap-2 mb-3">
+        <button class="quick-reply bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-xs transition">Payment Help</button>
+        <button class="quick-reply bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-xs transition">Security</button>
+        <button class="quick-reply bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-xs transition">Order Details</button>
+      </div>
+    </div>
+
+    <!-- Chat Input -->
+    <div class="p-3 border-t border-slate-100">
+      <div class="flex gap-2">
+        <input id="chatInput" type="text" placeholder="Ask about checkout..." class="flex-1 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent">
+        <button id="sendMessage" class="bg-brand-500 hover:bg-brand-600 text-white rounded-lg px-4 py-2 text-sm transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+    
+    // Chatbot functionality
+    (() => {
+        const chatToggle = document.getElementById('chatToggle');
+        const chatWindow = document.getElementById('chatWindow');
+        const chatIcon = document.getElementById('chatIcon');
+        const closeIcon = document.getElementById('closeIcon');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendMessage');
+        const quickReplies = document.querySelectorAll('.quick-reply');
+        
+        let isOpen = false;
+        
+        // Checkout-specific responses
+        const responses = {
+            'payment': 'We use PayFast for secure payment processing. All major credit cards, debit cards, and EFT are accepted. Your payment information is encrypted and secure.',
+            'security': 'Your checkout is protected by SSL encryption and PayFast\'s secure payment gateway. We never store your card details on our servers.',
+            'order': 'Your order includes full 360° VR village experience with unlimited replays for 48 hours. You\'ll receive access details via email after payment.',
+            'help': 'Having trouble? Try refreshing the page or contact our support team. Your session is saved and you can complete payment anytime.',
+            'refund': 'We offer full refunds within 24 hours if you experience technical issues. Contact support with your order details for assistance.',
+            'access': 'After successful payment, you\'ll receive an email with your VR access link and instructions. Access is valid for 48 hours from purchase.',
+            'technical': 'For technical issues during checkout, try clearing your browser cache or using a different browser. Contact support if problems persist.',
+            'time': 'Your checkout session is secure and won\'t expire. Take your time to review your order before completing payment.',
+            'support': 'Need immediate help? Email hello@rootstorealities.co.za or use the contact form on our main website.',
+            'default': 'I can help with payment questions, security concerns, or order details. What would you like to know about your checkout?'
+        };
+        
+        function toggleChat() {
+            isOpen = !isOpen;
+            if (isOpen) {
+                chatWindow.classList.remove('hidden');
+                chatWindow.classList.add('flex');
+                chatIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+                chatInput.focus();
+            } else {
+                chatWindow.classList.add('hidden');
+                chatWindow.classList.remove('flex');
+                chatIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+        
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex gap-2' + (isUser ? ' justify-end' : '');
+            
+            if (isUser) {
+                messageDiv.innerHTML = `
+                    <div class="bg-brand-500 text-white rounded-lg p-3 max-w-xs">
+                        <p class="text-sm">${message}</p>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="h-6 w-6 bg-brand-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span class="text-xs">💳</span>
+                    </div>
+                    <div class="bg-slate-100 rounded-lg p-3 max-w-xs">
+                        <p class="text-sm">${message}</p>
+                    </div>
+                `;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function getResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('payment') || lowerMessage.includes('pay') || lowerMessage.includes('card') || lowerMessage.includes('payfast')) {
+                return responses.payment;
+            } else if (lowerMessage.includes('security') || lowerMessage.includes('secure') || lowerMessage.includes('safe') || lowerMessage.includes('ssl')) {
+                return responses.security;
+            } else if (lowerMessage.includes('order') || lowerMessage.includes('purchase') || lowerMessage.includes('buy')) {
+                return responses.order;
+            } else if (lowerMessage.includes('help') || lowerMessage.includes('problem') || lowerMessage.includes('issue')) {
+                return responses.help;
+            } else if (lowerMessage.includes('refund') || lowerMessage.includes('cancel') || lowerMessage.includes('money back')) {
+                return responses.refund;
+            } else if (lowerMessage.includes('access') || lowerMessage.includes('email') || lowerMessage.includes('link')) {
+                return responses.access;
+            } else if (lowerMessage.includes('technical') || lowerMessage.includes('error') || lowerMessage.includes('browser')) {
+                return responses.technical;
+            } else if (lowerMessage.includes('time') || lowerMessage.includes('expire') || lowerMessage.includes('session')) {
+                return responses.time;
+            } else if (lowerMessage.includes('support') || lowerMessage.includes('contact')) {
+                return responses.support;
+            } else {
+                return responses.default;
+            }
+        }
+        
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            addMessage(message, true);
+            chatInput.value = '';
+            
+            setTimeout(() => {
+                const response = getResponse(message);
+                addMessage(response, false);
+            }, 500);
+        }
+        
+        // Event listeners
+        chatToggle.addEventListener('click', toggleChat);
+        sendButton.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // Quick reply buttons
+        quickReplies.forEach(button => {
+            button.addEventListener('click', () => {
+                const message = button.textContent;
+                addMessage(message, true);
+                setTimeout(() => {
+                    const response = getResponse(message);
+                    addMessage(response, false);
+                }, 500);
+            });
+        });
+    })();
+  </script>
+
 </body>
 </html>

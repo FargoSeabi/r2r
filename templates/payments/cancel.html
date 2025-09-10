@@ -1,2 +1,231 @@
-<h1>Payment Cancelled</h1>
-<p>Your payment was cancelled. You can retry at any time.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Cancelled — Roots to Realities</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              500: "#e2623f",
+              600: "#cf5536",
+              700: "#b7442b",
+              100: "#ffe6d9"
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center">
+  <div class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg text-center">
+    <div class="mb-6">
+      <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <span class="text-2xl">⚠️</span>
+      </div>
+      <h1 class="text-2xl font-bold text-slate-900 mb-2">Payment Cancelled</h1>
+      <p class="text-slate-600">Your payment was cancelled. You can retry at any time.</p>
+    </div>
+    
+    <div class="space-y-3">
+      <a href="/" class="block w-full bg-brand-500 hover:bg-brand-600 text-white font-medium py-3 px-4 rounded-lg transition">
+        Return to Home
+      </a>
+      <a href="/ticket-form" class="block w-full border border-slate-300 hover:bg-slate-50 text-slate-700 font-medium py-3 px-4 rounded-lg transition">
+        Try Again
+      </a>
+    </div>
+  </div>
+
+  <!-- Chatbot Widget -->
+  <div id="chatToggle" class="fixed bottom-6 right-6 z-50 bg-brand-500 hover:bg-brand-600 text-white rounded-full p-4 shadow-lg cursor-pointer transition-all duration-300 hover:scale-105">
+    <svg id="chatIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+    </svg>
+    <svg id="closeIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+    </svg>
+  </div>
+
+  <div id="chatWindow" class="fixed bottom-24 right-6 z-50 w-80 bg-white rounded-lg shadow-xl border border-slate-200 hidden flex-col max-h-96">
+    <!-- Chat Header -->
+    <div class="bg-brand-500 text-white p-4 rounded-t-lg">
+      <div class="flex items-center gap-2">
+        <div class="h-8 w-8 bg-white/20 rounded-full flex items-center justify-center">
+          <span class="text-sm">💬</span>
+        </div>
+        <div>
+          <h3 class="font-semibold text-sm">Payment Support</h3>
+          <p class="text-xs text-brand-100">Need help with your payment?</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Messages -->
+    <div id="chatMessages" class="flex-1 p-4 space-y-3 overflow-y-auto max-h-48">
+      <div class="flex gap-2">
+        <div class="h-6 w-6 bg-brand-100 rounded-full flex items-center justify-center flex-shrink-0">
+          <span class="text-xs">💬</span>
+        </div>
+        <div class="bg-slate-100 rounded-lg p-3 max-w-xs">
+          <p class="text-sm">I'm sorry your payment was cancelled. I can help you understand what happened or assist with trying again.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Replies -->
+    <div class="p-3 border-t border-slate-100">
+      <div class="flex flex-wrap gap-2 mb-3">
+        <button class="quick-reply bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-xs transition">Why cancelled?</button>
+        <button class="quick-reply bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-xs transition">Try again</button>
+        <button class="quick-reply bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-xs transition">Get help</button>
+      </div>
+    </div>
+
+    <!-- Chat Input -->
+    <div class="p-3 border-t border-slate-100">
+      <div class="flex gap-2">
+        <input id="chatInput" type="text" placeholder="Ask about payment..." class="flex-1 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent">
+        <button id="sendMessage" class="bg-brand-500 hover:bg-brand-600 text-white rounded-lg px-4 py-2 text-sm transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Chatbot functionality
+    (() => {
+        const chatToggle = document.getElementById('chatToggle');
+        const chatWindow = document.getElementById('chatWindow');
+        const chatIcon = document.getElementById('chatIcon');
+        const closeIcon = document.getElementById('closeIcon');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendMessage');
+        const quickReplies = document.querySelectorAll('.quick-reply');
+        
+        let isOpen = false;
+        
+        // Payment cancellation-specific responses
+        const responses = {
+            'why': 'Payments can be cancelled for several reasons: you clicked cancel, your bank declined the transaction, or there was a timeout. This is completely normal and your card was not charged.',
+            'retry': 'You can try your payment again anytime! Click "Try Again" above to return to the booking form, or visit our homepage to start over.',
+            'help': 'If you\'re having payment issues, try using a different card or payment method. Contact hello@rootstorealities.co.za if problems persist.',
+            'refund': 'Since your payment was cancelled, no charge was made to your account. You don\'t need a refund as no money was taken.',
+            'support': 'For immediate assistance, email hello@rootstorealities.co.za or return to our main website to try booking again.',
+            'card': 'If your card was declined, check with your bank or try a different payment method. Sometimes international transactions need approval.',
+            'technical': 'Technical issues during payment are rare but can happen. Try refreshing and starting over, or contact our support team.',
+            'booking': 'Your booking was not completed since payment was cancelled. You can start a new booking anytime - your session details weren\'t saved.',
+            'default': 'I can help explain why your payment was cancelled or assist you with trying again. What would you like to know?'
+        };
+        
+        function toggleChat() {
+            isOpen = !isOpen;
+            if (isOpen) {
+                chatWindow.classList.remove('hidden');
+                chatWindow.classList.add('flex');
+                chatIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+                chatInput.focus();
+            } else {
+                chatWindow.classList.add('hidden');
+                chatWindow.classList.remove('flex');
+                chatIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+        
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex gap-2' + (isUser ? ' justify-end' : '');
+            
+            if (isUser) {
+                messageDiv.innerHTML = `
+                    <div class="bg-brand-500 text-white rounded-lg p-3 max-w-xs">
+                        <p class="text-sm">${message}</p>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="h-6 w-6 bg-brand-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span class="text-xs">💬</span>
+                    </div>
+                    <div class="bg-slate-100 rounded-lg p-3 max-w-xs">
+                        <p class="text-sm">${message}</p>
+                    </div>
+                `;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function getResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('why') || lowerMessage.includes('cancelled') || lowerMessage.includes('reason')) {
+                return responses.why;
+            } else if (lowerMessage.includes('try') || lowerMessage.includes('again') || lowerMessage.includes('retry')) {
+                return responses.retry;
+            } else if (lowerMessage.includes('help') || lowerMessage.includes('problem') || lowerMessage.includes('issue')) {
+                return responses.help;
+            } else if (lowerMessage.includes('refund') || lowerMessage.includes('money') || lowerMessage.includes('charged')) {
+                return responses.refund;
+            } else if (lowerMessage.includes('support') || lowerMessage.includes('contact')) {
+                return responses.support;
+            } else if (lowerMessage.includes('card') || lowerMessage.includes('declined') || lowerMessage.includes('bank')) {
+                return responses.card;
+            } else if (lowerMessage.includes('technical') || lowerMessage.includes('error') || lowerMessage.includes('bug')) {
+                return responses.technical;
+            } else if (lowerMessage.includes('booking') || lowerMessage.includes('reservation') || lowerMessage.includes('order')) {
+                return responses.booking;
+            } else {
+                return responses.default;
+            }
+        }
+        
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            addMessage(message, true);
+            chatInput.value = '';
+            
+            setTimeout(() => {
+                const response = getResponse(message);
+                addMessage(response, false);
+            }, 500);
+        }
+        
+        // Event listeners
+        chatToggle.addEventListener('click', toggleChat);
+        sendButton.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // Quick reply buttons
+        quickReplies.forEach(button => {
+            button.addEventListener('click', () => {
+                const message = button.textContent;
+                addMessage(message, true);
+                setTimeout(() => {
+                    const response = getResponse(message);
+                    addMessage(response, false);
+                }, 500);
+            });
+        });
+    })();
+  </script>
+</body>
+</html>

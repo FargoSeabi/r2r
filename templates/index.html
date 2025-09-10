@@ -565,7 +565,7 @@
                         <span id="vrDuration">90 min</span>
                     </div>
                     <div class="flex items-center gap-3">
-                        <span id="vrPrice" class="text-lg font-bold text-brand-600">From R75.00</span>
+                        <span id="vrPrice" class="text-lg font-bold text-brand-600">R35.00</span>
                         <a href="{% url 'ticket_form' %}">
                             Book Full VR Experience
                         </a>
@@ -579,6 +579,124 @@
     </div>
 
 
+
+    <!-- Chatbot Widget -->
+    <div id="chatbot-container" class="fixed bottom-6 right-6 z-50">
+        <!-- Chat Button -->
+        <button id="chatbot-toggle" class="bg-brand-500 hover:bg-brand-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:scale-105">
+            <svg id="chat-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.955 8.955 0 01-4.126-.98L3 21l1.98-5.874A8.955 8.955 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z"></path>
+            </svg>
+            <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        
+        <!-- Chat Window -->
+        <div id="chatbot-window" class="hidden absolute bottom-16 right-0 w-80 h-96 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+            <!-- Chat Header -->
+            <div class="bg-brand-500 text-white p-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold">Roots Assistant</h3>
+                        <p class="text-xs text-white/80">Here to help you explore</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat Messages -->
+            <div id="chat-messages" class="flex-1 p-4 h-64 overflow-y-auto space-y-3">
+                <div class="flex gap-2">
+                    <div class="w-6 h-6 bg-brand-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg class="w-3 h-3 text-brand-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <div class="bg-slate-100 rounded-lg p-3 max-w-xs">
+                        <p class="text-sm">Hello! I'm here to help you explore our virtual villages and marketplace. What would you like to know?</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat Input -->
+            <div class="border-t border-slate-200 p-4">
+                <div class="flex gap-2">
+                    <input id="chat-input" type="text" placeholder="Ask me anything..." class="flex-1 px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent">
+                    <button id="send-message" class="bg-brand-500 hover:bg-brand-600 text-white p-2 rounded-lg transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div id="chatbot" class="fixed bottom-6 right-6 z-50">
+        <!-- Chat Button -->
+        <button id="chatToggle" class="h-14 w-14 bg-brand-500 hover:bg-brand-600 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-105">
+            <svg id="chatIcon" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+            </svg>
+            <svg id="closeIcon" class="h-6 w-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+
+        <!-- Chat Window -->
+        <div id="chatWindow" class="absolute bottom-16 right-0 w-80 h-96 bg-white rounded-2xl shadow-2xl ring-1 ring-slate-200 hidden flex-col overflow-hidden">
+            <!-- Chat Header -->
+            <div class="bg-brand-500 text-white p-4 flex items-center gap-3">
+                <div class="h-8 w-8 bg-white/20 rounded-full flex items-center justify-center">
+                    <span class="text-sm font-semibold">🌍</span>
+                </div>
+                <div>
+                    <h3 class="font-semibold">Village Guide</h3>
+                    <p class="text-xs text-brand-100">Ask me about villages & experiences</p>
+                </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-3">
+                <div class="flex gap-2">
+                    <div class="h-6 w-6 bg-brand-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span class="text-xs">🌍</span>
+                    </div>
+                    <div class="bg-slate-100 rounded-lg p-3 text-sm">
+                        <p>Hello! I'm your Village Guide. I can help you:</p>
+                        <ul class="mt-2 space-y-1 text-xs">
+                            <li>• Find the perfect village experience</li>
+                            <li>• Learn about local cultures</li>
+                            <li>• Book VR tours and tickets</li>
+                            <li>• Discover marketplace products</li>
+                        </ul>
+                        <p class="mt-2">What would you like to explore today?</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="p-4 border-t border-slate-200">
+                <div class="flex gap-2">
+                    <input id="chatInput" type="text" placeholder="Ask about villages, tours, or products..." class="flex-1 px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent">
+                    <button id="sendMessage" class="px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-sm font-medium transition-colors">
+                        Send
+                    </button>
+                </div>
+                <div class="mt-2 flex gap-1 flex-wrap">
+                    <button class="quick-reply px-2 py-1 bg-slate-100 hover:bg-slate-200 text-xs rounded-full transition-colors">Show villages</button>
+                    <button class="quick-reply px-2 py-1 bg-slate-100 hover:bg-slate-200 text-xs rounded-full transition-colors">Book VR tour</button>
+                    <button class="quick-reply px-2 py-1 bg-slate-100 hover:bg-slate-200 text-xs rounded-full transition-colors">Marketplace</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="border-t border-slate-200 bg-white/70">
@@ -596,6 +714,130 @@
 
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Chatbot functionality
+        (() => {
+            const chatToggle = document.getElementById('chatToggle');
+            const chatWindow = document.getElementById('chatWindow');
+            const chatIcon = document.getElementById('chatIcon');
+            const closeIcon = document.getElementById('closeIcon');
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const sendButton = document.getElementById('sendMessage');
+            const quickReplies = document.querySelectorAll('.quick-reply');
+            
+            let isOpen = false;
+            
+            // Predefined responses
+            const responses = {
+                'hello': 'Hello! Welcome to Roots to Realities. How can I help you explore our virtual villages today?',
+                'villages': 'We offer immersive 360° tours of 6 authentic South African villages including Zulu, Ndebele, Xhosa, Venda, Tswana, and Sotho communities. Each tour lasts 70-95 minutes.',
+                'marketplace': 'Our marketplace connects you directly with rural entrepreneurs. You can purchase handcrafts, food, textiles, and book cultural experiences.',
+                'tickets': 'All VR experience tickets are R35 for everyone! We have simplified our pricing with no age restrictions or categories. You can book through our ticket form.',
+                'booking': 'To book a VR experience, click on any "Start 360° Tour" button or visit our ticket booking page. Sessions are available throughout the day.',
+                'help': 'I can help you with information about our virtual villages, marketplace, ticket booking, and cultural experiences. What would you like to know?',
+                'default': 'That\'s an interesting question! For detailed information, I recommend exploring our villages or contacting our support team. Is there anything specific about our virtual tours or marketplace I can help with?'
+            };
+            
+            function toggleChat() {
+                isOpen = !isOpen;
+                if (isOpen) {
+                    chatWindow.classList.remove('hidden');
+                    chatWindow.classList.add('flex');
+                    chatIcon.classList.add('hidden');
+                    closeIcon.classList.remove('hidden');
+                    chatInput.focus();
+                } else {
+                    chatWindow.classList.add('hidden');
+                    chatWindow.classList.remove('flex');
+                    chatIcon.classList.remove('hidden');
+                    closeIcon.classList.add('hidden');
+                }
+            }
+            
+            function addMessage(message, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'flex gap-2' + (isUser ? ' justify-end' : '');
+                
+                if (isUser) {
+                    messageDiv.innerHTML = `
+                        <div class="bg-brand-500 text-white rounded-lg p-3 max-w-xs">
+                            <p class="text-sm">${message}</p>
+                        </div>
+                    `;
+                } else {
+                    messageDiv.innerHTML = `
+                        <div class="w-6 h-6 bg-brand-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <svg class="w-3 h-3 text-brand-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                        </div>
+                        <div class="bg-slate-100 rounded-lg p-3 max-w-xs">
+                            <p class="text-sm">${message}</p>
+                        </div>
+                    `;
+                }
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            function getResponse(message) {
+                const lowerMessage = message.toLowerCase();
+                
+                if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+                    return responses.hello;
+                } else if (lowerMessage.includes('village') || lowerMessage.includes('tour') || lowerMessage.includes('360')) {
+                    return responses.villages;
+                } else if (lowerMessage.includes('marketplace') || lowerMessage.includes('shop') || lowerMessage.includes('buy')) {
+                    return responses.marketplace;
+                } else if (lowerMessage.includes('ticket') || lowerMessage.includes('price') || lowerMessage.includes('cost')) {
+                    return responses.tickets;
+                } else if (lowerMessage.includes('book') || lowerMessage.includes('reserve') || lowerMessage.includes('schedule')) {
+                    return responses.booking;
+                } else if (lowerMessage.includes('help') || lowerMessage.includes('support')) {
+                    return responses.help;
+                } else {
+                    return responses.default;
+                }
+            }
+            
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (!message) return;
+                
+                // Add user message
+                addMessage(message, true);
+                chatInput.value = '';
+                
+                // Add bot response after a short delay
+                setTimeout(() => {
+                    const response = getResponse(message);
+                    addMessage(response, false);
+                }, 500);
+            }
+            
+            // Event listeners
+            chatToggle.addEventListener('click', toggleChat);
+            sendButton.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Quick reply buttons
+            quickReplies.forEach(button => {
+                button.addEventListener('click', () => {
+                    const message = button.textContent;
+                    addMessage(message, true);
+                    setTimeout(() => {
+                        const response = getResponse(message);
+                        addMessage(response, false);
+                    }, 500);
+                });
+            });
+        })();
     </script>
 
     <script>
@@ -642,20 +884,6 @@
             modal.addEventListener('click', (e) => {
                 if (e.target === modal || e.target.classList.contains('bg-slate-900/60')) closeModal();
             });
-            // inside your click handler for the Xhosa button (or shared .pill handler)
-            const ytId = e.currentTarget.getAttribute('data-vr-youtube'); // jt4jtO4gKsM
-
-            // reset
-            video.classList.add('hidden');
-            iframe.classList.add('hidden');
-            iframe.removeAttribute('src');
-
-            // set iframe source (mute helps autoplay policies)
-            iframe.src = `https://www.youtube.com/shorts/jt4jtO4gKsM?feature=share${ytId}?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1`;
-            iframe.style.display = 'block';          // belt-and-braces
-            iframe.classList.remove('hidden');       // Tailwind visibility
-
-            openModal();
 
             // Wire all Start Tour buttons; handle YouTube when present
             document.querySelectorAll('article .pill').forEach((btn) => {

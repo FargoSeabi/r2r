@@ -1,9 +1,264 @@
-<h1>Order Receipt</h1>
-<p><strong>Order:</strong> {{ order.id }}</p>
-<p><strong>Amount:</strong> R{{ order.amount }}</p>
-<p><strong>Status:</strong> {{ order.get_status_display }}</p>
-{% if paid %}
-  <p>Payment received. Thank you!</p>
-{% else %}
-  <p>Payment not completed yet.</p>
-{% endif %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Order Receipt — Roots to Realities</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ["Inter","Segoe UI","system-ui","sans-serif"] },
+          colors: {
+            brand: { 50:"#fff3ed",100:"#ffe6d9",200:"#fdc9b4",300:"#fba886",400:"#f07e59",500:"#e2623f",600:"#cf5536",700:"#b7442b",800:"#953826",900:"#7a2f21" }
+          },
+          boxShadow: { card:"0 10px 24px rgba(2,6,23,.08)" }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    @media print { .no-print { display: none !important; } }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans">
+  <!-- Header -->
+  <header class="no-print sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200">
+    <div class="max-w-7xl mx-auto h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <a href="{% url 'index' %}" class="flex items-center gap-2">
+        <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-100 ring-1 ring-brand-200">
+          <svg viewBox="0 0 24 24" class="h-5 w-5 text-brand-600" fill="none" aria-hidden="true">
+            <path d="M12 2a10 10 0 100 20 10 10 0 000-20Zm0 0v20M2 12h20" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </span>
+        <span class="text-lg font-extrabold tracking-tight">Roots to Realities</span>
+      </a>
+      <button onclick="window.print()" class="bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
+        Print Receipt
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-2xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-lg shadow-card p-8">
+      <!-- Receipt Header -->
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-slate-900 mb-2">Order Receipt</h1>
+        <p class="text-slate-600">Thank you for your purchase</p>
+      </div>
+
+      <!-- Order Details -->
+      <div class="space-y-4 mb-8">
+        <div class="flex justify-between items-center py-3 border-b border-slate-200">
+          <span class="font-semibold text-slate-700">Order ID:</span>
+          <span class="text-slate-900 font-mono">{{ order.id }}</span>
+        </div>
+        <div class="flex justify-between items-center py-3 border-b border-slate-200">
+          <span class="font-semibold text-slate-700">Amount:</span>
+          <span class="text-slate-900 font-semibold text-lg">R{{ order.amount }}</span>
+        </div>
+        <div class="flex justify-between items-center py-3 border-b border-slate-200">
+          <span class="font-semibold text-slate-700">Status:</span>
+          <span class="{% if paid %}text-green-600 bg-green-100{% else %}text-orange-600 bg-orange-100{% endif %} px-3 py-1 rounded-full text-sm font-medium">
+            {{ order.get_status_display }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Payment Status -->
+      <div class="text-center p-6 {% if paid %}bg-green-50 border border-green-200{% else %}bg-orange-50 border border-orange-200{% endif %} rounded-lg">
+        {% if paid %}
+          <div class="text-green-600 mb-2">
+            <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h2 class="text-xl font-semibold text-green-800 mb-1">Payment Received</h2>
+          <p class="text-green-700">Thank you for your payment!</p>
+        {% else %}
+          <div class="text-orange-600 mb-2">
+            <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h2 class="text-xl font-semibold text-orange-800 mb-1">Payment Pending</h2>
+          <p class="text-orange-700">Payment not completed yet.</p>
+        {% endif %}
+      </div>
+
+      <!-- Actions -->
+      <div class="no-print mt-8 flex gap-4 justify-center">
+        <a href="{% url 'index' %}" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-6 py-2 rounded-lg font-medium">
+          Back to Home
+        </a>
+        <button onclick="window.print()" class="bg-brand-600 hover:bg-brand-700 text-white px-6 py-2 rounded-lg font-medium">
+          Print Receipt
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Chatbot Widget -->
+  <div id="chatbot-widget" class="no-print fixed bottom-6 right-6 z-50">
+    <!-- Toggle Button -->
+    <button id="chatToggle" class="bg-brand-600 hover:bg-brand-700 text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:scale-105">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+      </svg>
+    </button>
+
+    <!-- Chat Window -->
+    <div id="chatWindow" class="hidden absolute bottom-16 right-0 w-80 bg-white rounded-lg shadow-xl border border-slate-200 overflow-hidden">
+      <!-- Header -->
+      <div class="bg-brand-600 text-white p-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+            <span class="font-semibold">Receipt Support</span>
+          </div>
+          <button id="closeChat" class="text-white hover:text-gray-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div id="chatMessages" class="h-64 overflow-y-auto p-4 space-y-3">
+        <div class="flex items-start gap-2">
+          <div class="w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center">
+            <span class="text-brand-600 text-sm font-semibold">R</span>
+          </div>
+          <div class="bg-gray-100 rounded-lg p-3 max-w-xs">
+            <p class="text-sm">Hi! I can help you with your receipt and order details. What do you need assistance with?</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input -->
+      <div class="p-4 border-t border-slate-200">
+        <div class="flex gap-2">
+          <input type="text" id="chatInput" placeholder="Type your message..." class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+          <button id="sendMessage" class="bg-brand-600 text-white rounded-lg px-4 py-2 text-sm hover:bg-brand-700">
+            Send
+          </button>
+        </div>
+        
+        <!-- Quick Replies -->
+        <div class="mt-3 flex flex-wrap gap-2">
+          <button class="quick-reply bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-3 py-1 rounded-full" data-message="Print receipt">
+            🖨️ Print Receipt
+          </button>
+          <button class="quick-reply bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-3 py-1 rounded-full" data-message="Order details">
+            📋 Order Details
+          </button>
+          <button class="quick-reply bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-3 py-1 rounded-full" data-message="Need help">
+            ❓ Need Help
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Chatbot functionality
+    const chatToggle = document.getElementById('chatToggle');
+    const chatWindow = document.getElementById('chatWindow');
+    const closeChat = document.getElementById('closeChat');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const sendMessage = document.getElementById('sendMessage');
+    const quickReplies = document.querySelectorAll('.quick-reply');
+
+    // Receipt specific responses
+    const responses = {
+      'print receipt': 'You can print this receipt by clicking the "Print Receipt" button at the top of the page or using your browser\'s print function (Ctrl+P).',
+      'order details': 'Your order details are displayed above, including Order ID, amount, and payment status. Is there something specific you\'d like to know?',
+      'need help': 'I\'m here to help! You can ask about printing your receipt, order details, or contact our support team for further assistance.',
+      'refund': 'For refund requests, please contact our support team with your Order ID. Refunds typically take 3-5 business days to process.',
+      'email': 'If you need an email copy of your receipt, please contact support with your Order ID and we\'ll send it to your registered email address.',
+      'download': 'You can save this receipt as a PDF by using your browser\'s print function and selecting "Save as PDF" as the destination.',
+      'default': 'I can help you with your receipt and order information. What would you like to know?'
+    };
+
+    function getResponse(message) {
+      const msg = message.toLowerCase();
+      for (const [key, response] of Object.entries(responses)) {
+        if (msg.includes(key)) {
+          return response;
+        }
+      }
+      return responses.default;
+    }
+
+    function addMessage(message, isUser = false) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `flex items-start gap-2 ${isUser ? 'justify-end' : ''}`;
+      
+      messageDiv.innerHTML = `
+        ${!isUser ? `
+          <div class="w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center">
+            <span class="text-brand-600 text-sm font-semibold">R</span>
+          </div>
+        ` : ''}
+        <div class="${isUser ? 'bg-brand-600 text-white' : 'bg-gray-100'} rounded-lg p-3 max-w-xs">
+          <p class="text-sm">${message}</p>
+        </div>
+      `;
+      
+      chatMessages.appendChild(messageDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function sendUserMessage() {
+      const message = chatInput.value.trim();
+      if (message) {
+        addMessage(message, true);
+        chatInput.value = '';
+        
+        setTimeout(() => {
+          const response = getResponse(message);
+          addMessage(response);
+        }, 500);
+      }
+    }
+
+    // Event listeners
+    chatToggle.addEventListener('click', () => {
+      chatWindow.classList.toggle('hidden');
+    });
+
+    closeChat.addEventListener('click', () => {
+      chatWindow.classList.add('hidden');
+    });
+
+    sendMessage.addEventListener('click', sendUserMessage);
+
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sendUserMessage();
+      }
+    });
+
+    quickReplies.forEach(button => {
+      button.addEventListener('click', () => {
+        const message = button.dataset.message;
+        addMessage(message, true);
+        
+        setTimeout(() => {
+          const response = getResponse(message);
+          addMessage(response);
+        }, 500);
+      });
+    });
+  </script>
+
+</body>
+</html>

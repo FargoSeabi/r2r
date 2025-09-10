@@ -1,26 +1,256 @@
-{% if order and paid %}
-  <h1>Payment Successful</h1>
-  <p>Thank you. Your payment for <strong>Order {{ order.id }}</strong> of <strong>R{{ order.amount }}</strong> was received.</p>
-  <p>A receipt has been emailed to {{ order.user_email }}.</p>
-  <p><a href="{% url 'order_receipt' order.id %}">View receipt</a></p>
-{% elif order and not paid %}
-  <h1>Payment Pending</h1>
-  <p>We are waiting for PayFast to confirm your payment for Order {{ order.id }}. This can take a moment.</p>
-  <p>You will receive an email once confirmed.</p>
-{% else %}
-  <h1>We’re Checking Your Payment</h1>
-  <p>If you completed payment, you’ll receive a confirmation email shortly. If not, please try again.</p>
-{% endif %}
-<p><a href="{% url 'index' %}">Return to home page</a></p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   {% if order and paid %}
-  <h1>Payment Successful</h1>
-  <p>Thank you. Your payment for <strong>Order {{ order.id }}</strong> of <strong>R{{ order.amount }}</strong> was received.</p>
-  <p>A receipt has been emailed to {{ order.user_email }}.</p>
-  <p><a href="{% url 'order_receipt' order.id %}">View receipt</a></p>
-{% elif order and not paid %}
-  <h1>Payment Pending</h1>
-  <p>We are waiting for PayFast to confirm your payment for Order {{ order.id }}. This can take a moment.</p>
-  <p>You will receive an email once confirmed.</p>
-{% else %}
-  <h1>We’re Checking Your Payment</h1>
-  <p>If you completed payment, you’ll receive a confirmation email shortly. If not, please try again.</p>
-{% endif %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Payment Return — Roots to Realities</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ["Inter","Segoe UI","system-ui","sans-serif"] },
+          colors: {
+            brand: { 50:"#fff3ed",100:"#ffe6d9",200:"#fdc9b4",300:"#fba886",400:"#f07e59",500:"#e2623f",600:"#cf5536",700:"#b7442b",800:"#953826",900:"#7a2f21" }
+          },
+          boxShadow: { card:"0 10px 24px rgba(2,6,23,.08)" }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans">
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200">
+    <div class="max-w-7xl mx-auto h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <a href="{% url 'index' %}" class="flex items-center gap-2">
+        <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-100 ring-1 ring-brand-200">
+          <svg viewBox="0 0 24 24" class="h-5 w-5 text-brand-600" fill="none" aria-hidden="true">
+            <path d="M12 2a10 10 0 100 20 10 10 0 000-20Zm0 0v20M2 12h20" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </span>
+        <span class="text-lg font-extrabold tracking-tight">Roots to Realities</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-2xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-lg shadow-card p-8 text-center">
+      {% if order and paid %}
+        <!-- Payment Successful -->
+        <div class="text-green-600 mb-6">
+          <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <h1 class="text-3xl font-bold text-slate-900 mb-4">Payment Successful!</h1>
+        <p class="text-lg text-slate-600 mb-2">Thank you for your payment.</p>
+        <p class="text-slate-700 mb-2">Your payment for <strong>Order {{ order.id }}</strong> of <strong class="text-brand-600">R{{ order.amount }}</strong> was received.</p>
+        <p class="text-slate-600 mb-6">A receipt has been emailed to <strong>{{ order.user_email }}</strong>.</p>
+        
+        <div class="flex gap-4 justify-center">
+          <a href="{% url 'order_receipt' order.id %}" class="bg-brand-600 hover:bg-brand-700 text-white px-6 py-3 rounded-lg font-medium">
+            View Receipt
+          </a>
+          <a href="{% url 'index' %}" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-6 py-3 rounded-lg font-medium">
+            Return Home
+          </a>
+        </div>
+        
+      {% elif order and not paid %}
+        <!-- Payment Pending -->
+        <div class="text-orange-600 mb-6">
+          <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <h1 class="text-3xl font-bold text-slate-900 mb-4">Payment Pending</h1>
+        <p class="text-lg text-slate-600 mb-2">We're processing your payment.</p>
+        <p class="text-slate-700 mb-6">We are waiting for PayFast to confirm your payment for <strong>Order {{ order.id }}</strong>. This can take a moment.</p>
+        <p class="text-slate-600 mb-6">You will receive an email once confirmed.</p>
+        
+        <a href="{% url 'index' %}" class="bg-brand-600 hover:bg-brand-700 text-white px-6 py-3 rounded-lg font-medium">
+          Return Home
+        </a>
+        
+      {% else %}
+        <!-- Checking Payment -->
+        <div class="text-blue-600 mb-6">
+          <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <h1 class="text-3xl font-bold text-slate-900 mb-4">We're Checking Your Payment</h1>
+        <p class="text-lg text-slate-600 mb-6">If you completed payment, you'll receive a confirmation email shortly. If not, please try again.</p>
+        
+        <a href="{% url 'index' %}" class="bg-brand-600 hover:bg-brand-700 text-white px-6 py-3 rounded-lg font-medium">
+          Return Home
+        </a>
+      {% endif %}
+    </div>
+  </main>
+
+  <!-- Chatbot Widget -->
+  <div id="chatbot-widget" class="fixed bottom-6 right-6 z-50">
+    <!-- Toggle Button -->
+    <button id="chatToggle" class="bg-brand-600 hover:bg-brand-700 text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:scale-105">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+      </svg>
+    </button>
+
+    <!-- Chat Window -->
+    <div id="chatWindow" class="hidden absolute bottom-16 right-0 w-80 bg-white rounded-lg shadow-xl border border-slate-200 overflow-hidden">
+      <!-- Header -->
+      <div class="bg-brand-600 text-white p-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+            <span class="font-semibold">Payment Support</span>
+          </div>
+          <button id="closeChat" class="text-white hover:text-gray-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div id="chatMessages" class="h-64 overflow-y-auto p-4 space-y-3">
+        <div class="flex items-start gap-2">
+          <div class="w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center">
+            <span class="text-brand-600 text-sm font-semibold">R</span>
+          </div>
+          <div class="bg-gray-100 rounded-lg p-3 max-w-xs">
+            <p class="text-sm">Hi! I can help you with questions about your payment status and next steps. How can I assist you?</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input -->
+      <div class="p-4 border-t border-slate-200">
+        <div class="flex gap-2">
+          <input type="text" id="chatInput" placeholder="Type your message..." class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+          <button id="sendMessage" class="bg-brand-600 text-white rounded-lg px-4 py-2 text-sm hover:bg-brand-700">
+            Send
+          </button>
+        </div>
+        
+        <!-- Quick Replies -->
+        <div class="mt-3 flex flex-wrap gap-2">
+          <button class="quick-reply bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-3 py-1 rounded-full" data-message="Payment status">
+            💳 Payment Status
+          </button>
+          <button class="quick-reply bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-3 py-1 rounded-full" data-message="View receipt">
+            📄 View Receipt
+          </button>
+          <button class="quick-reply bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-3 py-1 rounded-full" data-message="Need help">
+            ❓ Need Help
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Chatbot functionality
+    const chatToggle = document.getElementById('chatToggle');
+    const chatWindow = document.getElementById('chatWindow');
+    const closeChat = document.getElementById('closeChat');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const sendMessage = document.getElementById('sendMessage');
+    const quickReplies = document.querySelectorAll('.quick-reply');
+
+    // Payment return specific responses
+    const responses = {
+      'payment status': 'Your payment status is shown above. If successful, you\'ll receive an email confirmation. For pending payments, please wait a few minutes for processing.',
+      'view receipt': 'If your payment was successful, you can view your receipt using the "View Receipt" button above or check your email for a copy.',
+      'need help': 'I\'m here to help! You can ask about payment status, receipts, or contact our support team if you need further assistance.',
+      'email': 'Confirmation emails are sent automatically after successful payments. Please check your spam folder if you don\'t see it in your inbox.',
+      'pending': 'Pending payments usually process within a few minutes. If it takes longer than 10 minutes, please contact our support team.',
+      'failed': 'If your payment failed, you can try again or contact our support team for assistance. No charges will be made for failed payments.',
+      'refund': 'For refund requests, please contact our support team with your order details. Refunds typically take 3-5 business days to process.',
+      'default': 'I can help you with payment status, receipts, and general support questions. What would you like to know?'
+    };
+
+    function getResponse(message) {
+      const msg = message.toLowerCase();
+      for (const [key, response] of Object.entries(responses)) {
+        if (msg.includes(key)) {
+          return response;
+        }
+      }
+      return responses.default;
+    }
+
+    function addMessage(message, isUser = false) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `flex items-start gap-2 ${isUser ? 'justify-end' : ''}`;
+      
+      messageDiv.innerHTML = `
+        ${!isUser ? `
+          <div class="w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center">
+            <span class="text-brand-600 text-sm font-semibold">R</span>
+          </div>
+        ` : ''}
+        <div class="${isUser ? 'bg-brand-600 text-white' : 'bg-gray-100'} rounded-lg p-3 max-w-xs">
+          <p class="text-sm">${message}</p>
+        </div>
+      `;
+      
+      chatMessages.appendChild(messageDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function sendUserMessage() {
+      const message = chatInput.value.trim();
+      if (message) {
+        addMessage(message, true);
+        chatInput.value = '';
+        
+        setTimeout(() => {
+          const response = getResponse(message);
+          addMessage(response);
+        }, 500);
+      }
+    }
+
+    // Event listeners
+    chatToggle.addEventListener('click', () => {
+      chatWindow.classList.toggle('hidden');
+    });
+
+    closeChat.addEventListener('click', () => {
+      chatWindow.classList.add('hidden');
+    });
+
+    sendMessage.addEventListener('click', sendUserMessage);
+
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sendUserMessage();
+      }
+    });
+
+    quickReplies.forEach(button => {
+      button.addEventListener('click', () => {
+        const message = button.dataset.message;
+        addMessage(message, true);
+        
+        setTimeout(() => {
+          const response = getResponse(message);
+          addMessage(response);
+        }, 500);
+      });
+    });
+  </script>
+
+</body>
+</html>
