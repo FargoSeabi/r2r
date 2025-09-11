@@ -161,9 +161,9 @@ PAYFAST_MERCHANT_KEY = "7busob28glxau"       # from your screenshot
 PAYFAST_PASSPHRASE   = ""  # from your screenshot (no extra spaces)
 
 PAYFAST_PROCESS_URL  = "https://sandbox.payfast.co.za/eng/process"
-PAYFAST_RETURN_URL   = "http://127.0.0.1:8000/payment-success/"
-PAYFAST_CANCEL_URL   = "http://127.0.0.1:8000/payment-cancel/"
-PAYFAST_NOTIFY_URL   = "http://127.0.0.1:8000/payment-notify/"
+PAYFAST_RETURN_URL   = "http://127.0.0.1:8000/payfast/return/"
+PAYFAST_CANCEL_URL   = "http://127.0.0.1:8000/payfast/cancel/"
+PAYFAST_NOTIFY_URL   = "http://127.0.0.1:8000/payfast/notify/"
 
 # Used to build return/cancel/notify URLs (must match how you access the app)
 SITE_URL = config('SITE_URL', default='http://127.0.0.1:8000')

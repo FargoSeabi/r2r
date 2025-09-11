@@ -28,10 +28,19 @@ def pf_query_string(params: dict, passphrase: str | None) -> str:
     parts = []
     for k, v in pf_normalize(params):
         # Encode each value; keys are ASCII, values must be percent-encoded
-        parts.append(f"{k}={urllib.parse.quote(v, safe='')}")
+        # Use quote_plus to encode spaces as '+' and ensure hex encoding is uppercase
+        encoded_value = urllib.parse.quote_plus(v, safe='')
+        # Convert only hex encoding to uppercase (e.g., %3a -> %3A)
+        encoded_value = ''.join(c.upper() if i > 0 and encoded_value[i-1] == '%' and c in '0123456789abcdef' else c 
+                               for i, c in enumerate(encoded_value))
+        parts.append(f"{k}={encoded_value}")
     q = "&".join(parts)
     if passphrase:
-        q = f"{q}&passphrase={urllib.parse.quote(passphrase, safe='')}"
+        encoded_passphrase = urllib.parse.quote_plus(passphrase, safe='')
+        # Convert only hex encoding to uppercase
+        encoded_passphrase = ''.join(c.upper() if i > 0 and encoded_passphrase[i-1] == '%' and c in '0123456789abcdef' else c 
+                                    for i, c in enumerate(encoded_passphrase))
+        q = f"{q}&passphrase={encoded_passphrase}"
     return q
 
 def payfast_signature(params: dict, passphrase: str | None) -> str:

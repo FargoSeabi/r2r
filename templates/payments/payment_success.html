@@ -49,35 +49,76 @@
   </header>
 
   <!-- Hero -->
-  <section class="hero-grad">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+  <section class="py-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <!-- SUCCESS -->
-      <div class="bg-white rounded-3xl ring-1 ring-slate-200 shadow-card overflow-hidden">
-        <div class="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-6 py-5 flex items-center gap-3">
-          <span class="inline-grid place-items-center h-10 w-10 rounded-full bg-white/15">
-            <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" aria-hidden="true"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <!-- Quick Verification Status -->
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center gap-3 px-6 py-3 bg-emerald-50 border border-emerald-200 rounded-full mb-4">
+          <span class="inline-grid place-items-center h-8 w-8 rounded-full bg-emerald-500 text-white">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" aria-hidden="true"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </span>
-          <div>
-            <h1 class="text-xl font-bold">Payment Successful</h1>
-            <p class="text-white/90 text-sm">Access confirmed. You can start the full 360° tour immediately.</p>
-          </div>
+          <span class="text-emerald-800 font-semibold">Payment Verified & Confirmed</span>
         </div>
+        <h1 class="text-3xl font-bold text-slate-900 mb-2">Welcome to Your VR Experience!</h1>
+        <p class="text-lg text-slate-600">Your payment has been processed successfully. Start exploring immediately.</p>
+      </div>
 
-        <div class="grid gap-6 lg:grid-cols-[1.2fr_.8fr] p-6">
-          <!-- Receipt -->
-          <div class="bg-white rounded-2xl ring-1 ring-slate-200 p-5">
-            <h2 class="text-lg font-semibold">Receipt</h2>
-            <dl class="mt-3 grid grid-cols-2 gap-3 text-sm">
-              <dt class="text-slate-600">Order #</dt><dd class="font-medium" id="orderRef">{{ order.id }}</dd>
-              <dt class="text-slate-600">Amount</dt><dd class="font-medium">${{ order.amount }}</dd>
-              <dt class="text-slate-600">Status</dt><dd class="font-medium text-emerald-700">PAID</dd>
-              <dt class="text-slate-600">Email</dt><dd class="font-medium">{{ order.user_email }}</dd>
-            </dl>
-            <div class="mt-4 flex flex-wrap gap-3">
-              <button id="copyRef" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-300 hover:bg-slate-50">
-                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><path d="M9 9h9v12H9zM6 3h9v3" stroke="currentColor" stroke-width="1.5"/></svg>
-                Copy reference
+      <!-- SUCCESS CARD -->
+      <div class="bg-white rounded-3xl ring-1 ring-slate-200 shadow-card overflow-hidden">
+
+        <div class="grid gap-8 lg:grid-cols-[1.2fr_.8fr] p-8">
+          <!-- Receipt & Quick Verification -->
+          <div>
+            <div class="flex items-center gap-3 mb-6">
+              <span class="inline-grid place-items-center h-10 w-10 rounded-full bg-brand-100 text-brand-600">
+                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <h2 class="text-xl font-bold text-slate-900">Payment Receipt</h2>
+            </div>
+            
+            <!-- Quick Status Grid -->
+            <div class="grid grid-cols-2 gap-4 mb-6">
+              <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+                <div class="text-emerald-600 text-sm font-medium mb-1">Payment Status</div>
+                <div class="text-emerald-800 font-bold">✓ Verified</div>
+              </div>
+              <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                <div class="text-blue-600 text-sm font-medium mb-1">Access Level</div>
+                <div class="text-blue-800 font-bold">Full VR Tour</div>
+              </div>
+            </div>
+            
+            <div class="bg-slate-50 rounded-xl p-6 space-y-4">
+              <div class="flex justify-between items-center">
+                <span class="text-slate-600 font-medium">Order ID</span>
+                <span class="font-mono text-sm bg-white px-3 py-1 rounded-lg border" id="orderRef">{{ order.id }}</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-slate-600 font-medium">Amount Paid</span>
+                <span class="font-bold text-lg text-slate-900">${{ order.amount }}</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-slate-600 font-medium">Transaction Status</span>
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-semibold bg-emerald-100 text-emerald-800">
+                  <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                  PAID
+                </span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-slate-600 font-medium">Email Confirmation</span>
+                <span class="text-sm text-slate-700">{{ order.user_email }}</span>
+              </div>
+            </div>
+            
+            <div class="flex gap-3 mt-6">
+              <button id="copyRef" class="flex-1 px-4 py-3 bg-slate-100 hover:bg-slate-200 rounded-xl text-sm font-semibold transition-colors flex items-center justify-center gap-2">
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none"><path d="M9 9h9v12H9zM6 3h9v3" stroke="currentColor" stroke-width="1.5"/></svg>
+                Copy Reference
+              </button>
+              <button onclick="window.print()" class="px-4 py-3 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-sm font-semibold transition-colors flex items-center justify-center gap-2">
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none"><path d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Print Receipt
               </button>
             </div>
             <p class="mt-3 text-xs text-slate-500">A detailed email receipt has been sent to {{ order.user_email }}.</p>
@@ -85,13 +126,47 @@
         </div>
       </div>
 
-          <div class="mt-5 flex flex-wrap gap-3">
-            <button id="refreshBtn" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-300 hover:bg-slate-50">
-              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><path d="M4 4v6h6M20 20v-6h-6M20 8a8 8 0 10.001 8.001" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Start Tour
+          <!-- Quick Actions -->
+          <div class="bg-gradient-to-br from-brand-50 to-brand-100 rounded-2xl p-6 border border-brand-200">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="inline-grid place-items-center h-10 w-10 rounded-full bg-brand-500 text-white">
+                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none"><path d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <h3 class="text-xl font-bold text-brand-900">Ready to Explore!</h3>
+            </div>
+            <p class="text-brand-700 mb-6">Your VR experience is now unlocked. Start your immersive journey through South African villages.</p>
+            
+            <!-- Primary Action -->
+            <button onclick="startTour()" class="w-full px-6 py-4 bg-brand-500 hover:bg-brand-600 text-white rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg mb-4 flex items-center justify-center gap-3">
+              <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none"><path d="M8 5v14l11-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Launch VR Experience
             </button>
-            <!-- CHANGED: hard path "Continue to Tour" -->
-            <a href="{% url 'zithulele' %}" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 text-white hover:bg-black">Continue to Tour</a>
+            
+            <!-- Quick Access Links -->
+            <div class="space-y-3">
+              <a href="{% url 'zithulele' %}" class="block w-full px-4 py-3 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-center text-slate-700 hover:text-brand-600 font-semibold transition-colors flex items-center justify-center gap-2">
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Quick Start Tour
+              </a>
+              <button id="dlIcs" class="block w-full px-4 py-3 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-center text-slate-700 hover:text-brand-600 font-semibold transition-colors flex items-center justify-center gap-2">
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none"><path d="M19 14l-7 7m0 0l-7-7m7 7V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Add to Calendar
+              </button>
+            </div>
+            
+            <!-- Status Indicator -->
+             <div class="mt-6 p-3 bg-white/70 rounded-lg border border-brand-200">
+               <div class="flex items-center gap-2 text-sm">
+                 <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                 <span class="text-brand-700 font-medium">System Ready • Access Verified</span>
+               </div>
+               {% if auto_redirect %}
+               <div class="flex items-center gap-2 text-xs mt-2 text-brand-600">
+                 <svg viewBox="0 0 24 24" class="h-3 w-3" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                 <span>Auto-redirecting to VR experience...</span>
+               </div>
+               {% endif %}
+             </div>
           </div>
         </div>
       </div>
@@ -145,10 +220,41 @@
       });
     })();
 
-    // Pending: simple manual refresh
-    (function(){ const b=document.getElementById('refreshBtn'); if(b) b.addEventListener('click', ()=>location.reload()); })();
+    // Start tour function
+    function startTour() {
+      window.location.href = '{% url "zithulele" %}';
+    }
 
-    // Confetti (lightweight, no deps; respects reduced motion)
+    // Download calendar function
+     function downloadCalendar() {
+       document.getElementById('dlIcs').click();
+     }
+
+     // Auto-redirect for verified payments
+     {% if auto_redirect %}
+     let redirectTimer = {{ redirect_delay }};
+     let countdownElement = document.createElement('div');
+     countdownElement.className = 'fixed top-4 right-4 bg-brand-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+     countdownElement.innerHTML = `<div class="flex items-center gap-2"><span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>Redirecting to VR Experience in <span id="countdown">${Math.ceil(redirectTimer/1000)}</span>s</div>`;
+     document.body.appendChild(countdownElement);
+     
+     let countdown = setInterval(() => {
+       redirectTimer -= 1000;
+       document.getElementById('countdown').textContent = Math.ceil(redirectTimer/1000);
+       if (redirectTimer <= 0) {
+         clearInterval(countdown);
+         window.location.href = '{% url "zithulele" %}';
+       }
+     }, 1000);
+     
+     // Allow user to cancel auto-redirect
+     countdownElement.addEventListener('click', () => {
+       clearInterval(countdown);
+       countdownElement.remove();
+     });
+     {% endif %}
+
+     // Confetti (lightweight, no deps; respects reduced motion)
     (function(){
       const canvas=document.getElementById('confetti'); if(!canvas) return;
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;

@@ -6,12 +6,13 @@ from urllib.parse import quote
 from django.conf import settings
 from django.http import HttpResponse
 from django.http import HttpResponseBadRequest
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.http import require_GET, require_POST
 from django.views.decorators.csrf import csrf_exempt
 import random
 from django.contrib import messages
-from .models import Order
+from django.utils import timezone
+from .models import Order, Customer, Ticket
 from .payfast_utils import payfast_signature, ip_in_trusted, payfast_host
 
 def index(request):
@@ -20,6 +21,49 @@ def zithulele(request):
     return render(request, "zithulele.html")
 
 def ticket_form(request):
+    if request.method == 'POST':
+        # Get form data
+        name = request.POST.get('name')
+        surname = request.POST.get('surname')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        gender = request.POST.get('gender')
+        age = request.POST.get('age')
+        
+        # Create or get customer
+        customer, created = Customer.objects.get_or_create(
+            email=email,
+            defaults={
+                'first_name': name,
+                'last_name': surname,
+                'phone': phone,
+                'gender': gender,
+                'age': int(age) if age else 18,
+            }
+        )
+        
+        # If customer exists but data is different, update it
+        if not created:
+            customer.first_name = name
+            customer.last_name = surname
+            customer.phone = phone
+            customer.gender = gender
+            customer.age = int(age) if age else 18
+            customer.save()
+        
+        # Store customer ID in session for checkout
+        request.session['customer_id'] = str(customer.id)
+        request.session['customer_data'] = {
+            'name': name,
+            'surname': surname,
+            'email': email,
+            'phone': phone,
+            'gender': gender,
+            'age': age,
+        }
+        
+        return redirect('payfast_checkout')
+    
     return render(request, "ticket_form.html")
 
 # def _pf_signature(data: dict, passphrase: str) -> str:
@@ -63,21 +107,44 @@ def ticket_form(request):
 #     })
 
 
-def payfast_checkout(request, amount):
-    order_id = random.randint(10, 99)
-    order, created = Order.objects.get_or_create(
-        pk=order_id,
-        defaults={
-            "user_email": "freddiemanyate03@gmail.com",
-            "amount": f"{Decimal(amount):.2f}",
-            "status": "PENDING",
-        }
+def payfast_checkout(request):
+    # Get customer data from session
+    customer_data = request.session.get('customer_data', {})
+    customer_id = request.session.get('customer_id')
+    
+    if not customer_data or not customer_id:
+        messages.error(request, 'Please fill out the ticket form first.')
+        return redirect('ticket_form')
+    
+    try:
+        customer = Customer.objects.get(id=customer_id)
+    except Customer.DoesNotExist:
+        messages.error(request, 'Customer not found. Please fill out the form again.')
+        return redirect('ticket_form')
+    
+    # Create ticket first
+    ticket = Ticket.objects.create(
+        customer=customer,
+        ticket_type='standard',
+        price=Decimal('35.00'),
+        status='active'
     )
-
+    
+    # Create order and link to customer and ticket
+    order = Order.objects.create(
+        customer=customer,
+        user_email=customer.email,
+        amount=ticket.price,
+        status='pending'
+    )
+    
+    # Link ticket to order
+    order.tickets.add(ticket)
+    
     # Build ITN endpoints
-    notify_url = f"{settings.PAYFAST_NOTIFY_URL}/"
-    return_url = f"{settings.PAYFAST_RETURN_URL}/"
-    cancel_url = f"{settings.PAYFAST_CANCEL_URL}/"
+    notify_url = settings.PAYFAST_NOTIFY_URL
+    return_url = settings.PAYFAST_RETURN_URL
+    cancel_url = settings.PAYFAST_CANCEL_URL
 
     # Required fields per PayFast
     pf_params = {
@@ -88,24 +155,33 @@ def payfast_checkout(request, amount):
         "notify_url": notify_url,
 
         # Customer/order
-        "name_first": "Customer",
-        "name_last": "Order",
-        "email_address": "freddiemanyate03@gmail.com",
+        "name_first": customer.first_name,
+        "name_last": customer.last_name,
+        "email_address": customer.email,
+        "cell_number": customer.phone,
 
         # Transaction
         "m_payment_id": str(order.id),       # your reference
-        "amount": f"{amount:.2f}",     # must be string with 2 decimals
-        "item_name": "Roots to Realities Booking",
-        "item_description": f"Order {order.id}",
+        "amount": str(order.amount),     # must be string with 2 decimals
+        "item_name": "VR Experience Ticket",
+        "item_description": "Virtual Reality Experience at Ikho",
     }
 
-    # signature = payfast_signature(pf_params, settings.PAYFAST_PASSPHRASE)
-    # pf_params["signature"] = signature
-    # print("PayFast signature:", signature)  # debug
+    # Generate signature
+    signature = payfast_signature(pf_params, settings.PAYFAST_PASSPHRASE)
+    pf_params["signature"] = signature
+    
+    # Store order and ticket IDs in session
+    request.session['order_id'] = str(order.id)
+    request.session['ticket_id'] = str(ticket.id)
+    
     # Render an auto-submit form to POST to PayFast
     context = {
         "action": f"{payfast_host()}/eng/process",
         "fields": pf_params,
+        "customer": customer,
+        "order": order,
+        "ticket": ticket,
     }
     return render(request, "payments/payfast_redirect.html", context)
 
@@ -144,7 +220,7 @@ def payfast_notify(request):
         return HttpResponseBadRequest("Missing order or amount")
 
     try:
-        order = m_payment_id
+        order = Order.objects.get(id=m_payment_id)
     except Order.DoesNotExist:
         return HttpResponseBadRequest("Order not found")
 
@@ -165,68 +241,123 @@ def payfast_notify(request):
     # Common statuses: "COMPLETE", "FAILED", "PENDING"
     if payment_status == "complete":
         order.status = Order.Status.PAID
+        order.paid_at = timezone.now()
+        
+        # Update all associated tickets to active status
+        for ticket in order.tickets.all():
+            ticket.status = 'active'
+            ticket.save()
+            
     elif payment_status == "failed":
         order.status = Order.Status.FAILED
+        
+        # Update all associated tickets to cancelled status
+        for ticket in order.tickets.all():
+            ticket.status = 'cancelled'
+            ticket.save()
+            
     elif payment_status == "cancelled":
         order.status = Order.Status.CANCELLED
+        
+        # Update all associated tickets to cancelled status
+        for ticket in order.tickets.all():
+            ticket.status = 'cancelled'
+            ticket.save()
     else:
         # Treat anything else as pending
         order.status = Order.Status.PENDING
 
     order.pf_payment_id = pf_payment_id
     order.pf_signature = received_signature
-    order.save(update_fields=["status", "pf_payment_id", "pf_signature"])
+    order.save(update_fields=["status", "pf_payment_id", "pf_signature", "paid_at"])
 
     # 8) Return 200 OK quickly; queue heavy work (emails, fulfilment) to Celery.
     return HttpResponse("OK")
-
-def payfast_return(request):
-    # Optional: display receipt; consider reloading order by id passed in "m_payment_id" if needed
-    return render(request, "payments/return.html")
 
 def payfast_cancel(request):
     return render(request, "payments/cancel.html")
 
 def payfast_return(request):
     """
-    The customer’s browser lands here after PayFast.
+    The customer's browser lands here after PayFast.
     We DO NOT trust this as proof of payment. We show status based on our DB,
     ideally using the order_id we stored in session pre-redirect.
     """
-    order_id = request.session.get("last_order_id")
+    # Get order ID from session or URL parameters
+    order_id = request.session.get('order_id') or request.GET.get('m_payment_id')
+    
     if not order_id:
-        messages.info(request, "We could not locate your recent order. If you completed payment, your receipt will be emailed shortly.")
-        return render(request, "payments/return.html", {"order": None, "paid": False})
-
-    order = get_object_or_404(Order, pk=order_id)
-    paid = (order.status == Order.Status.PAID)
-
-    # Optional: clear the session pointer so refreshes don’t loop
+        messages.error(request, 'No order found.')
+        return redirect('ticket_form')
+    
     try:
-        del request.session["last_order_id"]
-    except KeyError:
-        pass
-
-    context = {"order": order, "paid": paid}
-    return render(request, "payments/return.html", context)
+        order = Order.objects.get(id=order_id)
+    except Order.DoesNotExist:
+        messages.error(request, 'Order not found.')
+        return redirect('ticket_form')
+    
+    # Get customer and tickets
+    customer = order.customer
+    tickets = order.tickets.all()
+    
+    # Check order status
+    if order.status == Order.Status.PAID:
+        messages.success(request, f'Payment successful! Your VR experience ticket has been confirmed for {customer.first_name} {customer.last_name}.')
+        # Store order info in session for payment success page
+        request.session['successful_order_id'] = str(order.id)
+        return redirect('payment_success')
+    elif order.status == Order.Status.FAILED:
+        messages.error(request, 'Payment failed. Please try again.')
+        return redirect('ticket_form')
+    elif order.status == Order.Status.CANCELLED:
+        messages.warning(request, 'Payment was cancelled.')
+        return redirect('ticket_form')
+    else:
+        messages.info(request, 'Payment is being processed. Please wait for confirmation.')
+        # Store order info in session for payment success page
+        request.session['pending_order_id'] = str(order.id)
+        return redirect('payment_success')
+    
+    return redirect('ticket_form')
 
 
 def payment_success(request):
-    """
-    Customer lands here after PayFast redirect.
-    We check our DB (updated by ITN) to show the right message.
-    """
-    order_id = request.session.get("last_order_id")  # saved before redirect
+    # Get order from session (either successful or pending)
+    order_id = request.session.get('successful_order_id') or request.session.get('pending_order_id')
+    
     if not order_id:
-        messages.info(request, "We could not find your recent order. If you completed payment, check your email for confirmation.")
-        return render(request, "payments/payment_success.html", {"order": None, "paid": False})
-
-    order = get_object_or_404(Order, pk=order_id)
-    paid = (order.status == Order.Status.PAID)
-
-    # Clear the session so refreshes don't reuse the ID
-    request.session.pop("last_order_id", None)
-
-    return render(request, "zithulele.html", {"order": order, "paid": paid})
+        messages.error(request, 'No order found.')
+        return redirect('ticket_form')
+    
+    try:
+        order = Order.objects.get(id=order_id)
+    except Order.DoesNotExist:
+        messages.error(request, 'Order not found.')
+        return redirect('ticket_form')
+    
+    # Get customer and tickets from database
+    customer = order.customer
+    tickets = order.tickets.all()
+    
+    # Quick verification: If payment is confirmed, redirect to Zithulele after short display
+    auto_redirect = order.status == Order.Status.PAID
+    
+    context = {
+        'order': order,
+        'customer': customer,
+        'tickets': tickets,
+        'is_paid': order.status == Order.Status.PAID,
+        'is_pending': order.status == Order.Status.PENDING,
+        'auto_redirect': auto_redirect,  # Flag for auto-redirect
+        'redirect_delay': 3000,  # 3 seconds delay for user to see confirmation
+    }
+    
+    # Clear session data after displaying success page
+    session_keys_to_clear = ['successful_order_id', 'pending_order_id', 'order_id', 'customer_id', 'ticket_id', 'customer_data']
+    for key in session_keys_to_clear:
+        if key in request.session:
+            del request.session[key]
+    
+    return render(request, 'payments/payment_success.html', context)
 
 # roots_to_realities/settings.py                                                                                                                                                                                                                                                                                                                                                                                                                                                            1
