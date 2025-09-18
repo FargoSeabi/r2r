@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: roots-to-realities
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn roots_to_realities.wsgi:application"
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: False
+      - key: ALLOWED_HOSTS
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: roots-to-realities-db
+          property: connectionString
+      - key: PAYFAST_MERCHANT_ID
+        sync: false
+      - key: PAYFAST_MERCHANT_KEY
+        sync: false
+      - key: PAYFAST_PASSPHRASE
+        sync: false
+      - key: PAYFAST_ENVIRONMENT
+        value: sandbox
+      - key: SITE_URL
+        sync: false
+
+databases:
+  - name: roots-to-realities-db
+    plan: free
