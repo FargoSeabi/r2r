@@ -85,8 +85,14 @@
                 <a href="#impact" class="hover:text-brand-600">Our Impact</a>
             </nav>
             <div class="flex items-center gap-3">
-                <a href="#"
-                    class="hidden sm:inline-flex px-4 py-2 rounded-full border border-brand-200 text-brand-700 hover:bg-brand-50">Login</a>
+                {% if user.is_authenticated %}
+                    <span class="hidden sm:inline-flex text-sm text-slate-600">Welcome, {{ user.first_name|default:user.username }}!</span>
+                    <a href="{% url 'logout' %}"
+                        class="inline-flex px-4 py-2 rounded-full border border-red-200 text-red-700 hover:bg-red-50">Logout</a>
+                {% else %}
+                    <a href="{% url 'welcome' %}"
+                        class="hidden sm:inline-flex px-4 py-2 rounded-full border border-brand-200 text-brand-700 hover:bg-brand-50">Login</a>
+                {% endif %}
                 <a href="#marketplace"
                     class="inline-flex px-4 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-white shadow">Get
                     Started</a>
@@ -176,7 +182,7 @@
                         <button style="color: aliceblue;" class="pill absolute left-4 bottom-4" data-vr-id="3"
                             data-vr-title="Zithulele Village – Eastern Cape"
                             data-vr-desc="This is a preview of the Xhosa Zithulele Village 360 tour that are projected in the projection rooms of the Roots to Realities VR experience. Experience the rich heritage of the Red Blanket people—initiation rites, storytelling, and song.
-                Explore this village by booking your seat in the projection rooms and follow us to see where our next set up will be." data-vr-youtube="jt4jtO4gKsM">
+                Explore this village by booking your seat in the projection rooms and follow us to see where our next set up will be." data-vr-youtube="qXH3NSMxdYU">
                             <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none">
                                 <polygon points="8,5 19,12 8,19" fill="currentColor" />
                             </svg>
@@ -455,7 +461,7 @@
                     </div>
                     <div class="flex-1 w-full">
                         <img class="rounded-2xl w-full h-56 object-cover shadow-card"
-                            src="https://images.unsplash.com/photo-1516826957135-700dedea698c?q=80&w=1600&auto=format&fit=crop"
+                            src="https://mediapool.bmwgroup.com/cache/P9/202402/P90540356/P90540356-artist-esther-mahlangu-at-the-vip-opening-of-then-i-knew-i-was-good-at-painting-esther-mahlangu-a-re-2250px.jpg"
                             alt="Entrepreneur portrait" />
                     </div>
                 </div>
@@ -545,15 +551,12 @@
             </div>
 
             <div class="p-4">
-                <!-- Media container: shows either iframe (YouTube) or video (MP4) -->
+                <!-- Media container: shows either iframe (YouTube) or image -->
                 <div class="w-full h-72 bg-slate-100 rounded-xl overflow-hidden">
-                    <iframe id="vrIframe" class="w-full h-full hidden" src="" title="VR preview" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen>
-                    </iframe>
-                    <video id="vrPreview" class="w-full h-full hidden bg-slate-100" controls preload="metadata"
-                        playsinline>
-                    </video>
+                    <iframe id="vrIframe" class="w-full h-full hidden" frameborder="0" allowfullscreen></iframe>
+                    <img id="vrImage" class="w-full h-full object-cover" 
+                         src="https://lh5.googleusercontent.com/p/AF1QipMFqukQVJ-aK54qWvWH1LFWCVQ70efU6nrm3u3j=w1080-k-no" 
+                         alt="Zithulele Village Virtual Tour">
                 </div>
 
                 <p id="vrDesc" class="mt-3 text-sm text-slate-600"></p>
@@ -847,7 +850,6 @@
             const closeBtn = document.getElementById('vrClose');
 
             const iframe = document.getElementById('vrIframe');   // YouTube
-            const video = document.getElementById('vrPreview');   // MP4 (kept for future use)
             const desc = document.getElementById('vrDesc');
             const priceEl = document.getElementById('vrPrice');
             const buyBtn = document.getElementById('vrBuy');
@@ -862,19 +864,22 @@
             function closeModal() {
                 modal.classList.add('hidden');
                 document.body.classList.remove('overflow-hidden');
-                // stop any playback
-                video.pause?.();
+                // stop any playback and reset media elements
                 iframe.src = '';
+                iframe.classList.add('hidden');
+                // Keep image visible as default preview
+                document.getElementById('vrImage').classList.remove('hidden');
             }
             // specifically target the Xhosa button
             document.querySelector('[data-vr-id="3"]').addEventListener('click', (e) => {
-                const ytId = e.currentTarget.getAttribute('data-vr-youtube');
                 const text = e.currentTarget.getAttribute('data-vr-desc');
+                const vrImage = document.getElementById('vrImage');
 
                 desc.textContent = text;
 
-                iframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1`;
-                iframe.classList.remove('hidden');
+                // Hide iframe, show image for Zithulele village
+                iframe.classList.add('hidden');
+                vrImage.classList.remove('hidden');
 
                 openModal();
             });
@@ -889,13 +894,10 @@
             document.querySelectorAll('article .pill').forEach((btn) => {
                 btn.addEventListener('click', async (e) => {
                     // reset players
-                    video.classList.add('hidden');
                     iframe.classList.add('hidden');
-                    video.removeAttribute('src');
                     iframe.src = '';
 
-                    // read attributes (we only care about YouTube for this request)
-                    const ytId = btn.getAttribute('data-vr-youtube'); // e.g., jt4jtO4gKsM
+                    // read attributes
                     const text = btn.getAttribute('data-vr-desc') || '';
                     const id = btn.getAttribute('data-vr-id') || '';
 
@@ -906,16 +908,10 @@
                     durEl.textContent = '90 min';
                     buyBtn.dataset.id = id;
 
-                    if (ytId) {
-                        // Use YouTube embed (works for Shorts too)
-                        iframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1`;
-                        iframe.classList.remove('hidden');
-                        openModal();
-                        return;
-                    }
-
-                    // Fallback (kept for future enhancement)
-                    alert('No preview configured for this tour yet.');
+                    // Show the image for all tour buttons
+                    document.getElementById('vrImage').classList.remove('hidden');
+                    
+                    openModal();
                 });
             });
         })();

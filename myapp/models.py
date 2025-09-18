@@ -3,6 +3,90 @@ import uuid
 from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+
+class UserProfile(models.Model):
+    """Extended user profile to capture additional registration data"""
+    
+    class Gender(models.TextChoices):
+        FEMALE = "female", "Female"
+        MALE = "male", "Male"
+        NON_BINARY = "non_binary", "Non-binary"
+        OTHER = "other", "Other"
+        PREFER_NOT_TO_SAY = "prefer_not_to_say", "Prefer not to say"
+    
+    class Country(models.TextChoices):
+        SOUTH_AFRICA = "ZA", "South Africa"
+        BOTSWANA = "BW", "Botswana"
+        NAMIBIA = "NA", "Namibia"
+        ZIMBABWE = "ZW", "Zimbabwe"
+        ZAMBIA = "ZM", "Zambia"
+        MOZAMBIQUE = "MZ", "Mozambique"
+        SWAZILAND = "SZ", "Eswatini"
+        LESOTHO = "LS", "Lesotho"
+        OTHER = "OTHER", "Other"
+    
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    phone = models.CharField(max_length=20, blank=True)
+    age = models.PositiveIntegerField(
+        validators=[MinValueValidator(13), MaxValueValidator(120)],
+        null=True, blank=True
+    )
+    gender = models.CharField(
+        max_length=20, 
+        choices=Gender.choices, 
+        default=Gender.PREFER_NOT_TO_SAY
+    )
+    country = models.CharField(
+        max_length=10,
+        choices=Country.choices,
+        default=Country.SOUTH_AFRICA
+    )
+    city = models.CharField(max_length=100, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
+    interests = models.TextField(
+        blank=True,
+        help_text="Tell us about your interests in South African culture, history, or tourism"
+    )
+    how_did_you_hear = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text="How did you hear about Roots to Realities?"
+    )
+    marketing_consent = models.BooleanField(
+        default=False,
+        help_text="I agree to receive marketing communications"
+    )
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = "User Profile"
+        verbose_name_plural = "User Profiles"
+    
+    def __str__(self):
+        return f"{self.user.get_full_name() or self.user.username} - Profile"
+    
+    @property
+    def full_name(self):
+        return self.user.get_full_name() or self.user.username
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    """Automatically create a UserProfile when a User is created"""
+    if created:
+        UserProfile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    """Save the UserProfile when the User is saved"""
+    if hasattr(instance, 'profile'):
+        instance.profile.save()
 
 
 class Customer(models.Model):

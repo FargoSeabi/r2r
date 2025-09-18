@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.urls import reverse
 from django.utils import timezone
-from .models import Customer, Ticket, Order
+from .models import Customer, Ticket, Order, UserProfile
 
 
 @admin.register(Customer)
@@ -297,6 +297,74 @@ class OrderAdmin(admin.ModelAdmin):
     
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('customer').prefetch_related('tickets')
+
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    """Admin interface for UserProfile model"""
+    
+    list_display = (
+        'user_full_name',
+        'user_email', 
+        'phone', 
+        'age', 
+        'gender',
+        'country',
+        'city',
+        'marketing_consent',
+        'created_at'
+    )
+    list_filter = (
+        'gender', 
+        'country',
+        'marketing_consent',
+        'created_at',
+        'age'
+    )
+    search_fields = (
+        'user__first_name', 
+        'user__last_name', 
+        'user__email', 
+        'phone',
+        'city'
+    )
+    readonly_fields = (
+        'user', 
+        'created_at', 
+        'updated_at'
+    )
+    
+    fieldsets = (
+        ('User Information', {
+            'fields': ('user',)
+        }),
+        ('Personal Details', {
+            'fields': ('phone', 'age', 'gender', 'date_of_birth')
+        }),
+        ('Location', {
+            'fields': ('country', 'city')
+        }),
+        ('Interests & Marketing', {
+            'fields': ('interests', 'how_did_you_hear', 'marketing_consent')
+        }),
+        ('System Information', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        })
+    )
+    
+    def user_full_name(self, obj):
+        """Display user's full name"""
+        return f"{obj.user.first_name} {obj.user.last_name}".strip() or obj.user.username
+    user_full_name.short_description = 'Full Name'
+    
+    def user_email(self, obj):
+        """Display user's email"""
+        return obj.user.email
+    user_email.short_description = 'Email'
+    
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('user')
 
 
 # Customize admin site header and title

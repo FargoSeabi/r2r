@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roots to Realities - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, rgba(218, 165, 32, 0.3) 0%, rgba(139, 69, 19, 0.4) 100%), 
+                         url('https://idsb.tmgrup.com.tr/ly/uploads/images/2021/03/17/thumbs/800x531/100994.jpg');
+            background-size: 120% 120%;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+            animation: backgroundZoomOut 10s ease-out 30s forwards;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            animation: slideDown 1s ease-out;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #DAA520;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border: 2px solid #DAA520;
+            background: transparent;
+            color: #DAA520;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, #DAA520 0%, #8B4513 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(218, 165, 32, 0.4);
+        }
+
+        .nav-btn.register {
+            background: linear-gradient(135deg, #DAA520 0%, #8B4513 100%);
+            color: white;
+        }
+
+        .nav-btn.register:hover {
+            background: linear-gradient(135deg, #8B4513 0%, #DAA520 100%);
+            transform: translateY(-2px) scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            animation: fadeInUp 1.5s ease-out 0.5s both;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(45deg, #DAA520, #FFD700, #DAA520);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #DAA520 0%, #8B4513 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(218, 165, 32, 0.4);
+            background: linear-gradient(135deg, #8B4513 0%, #DAA520 100%);
+        }
+
+        /* Footer Section */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            text-align: center;
+            z-index: 1000;
+            animation: slideUp 1s ease-out 1s both;
+        }
+
+        .footer-content h2 {
+            font-size: 1.8rem;
+            color: #DAA520;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, #DAA520, #FFD700, #DAA520);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        .footer-content p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+
+
+        /* Animations */
+        @keyframes backgroundZoomOut {
+            0% {
+                background-size: 120% 120%;
+            }
+            100% {
+                background-size: 150% 150%;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes shimmer {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 10px 20px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .nav-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .footer {
+                padding: 15px 20px;
+            }
+
+            .footer-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .footer-content p {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">Roots to Realities</div>
+        <div class="nav-buttons">
+            <a href="/welcome/" class="nav-btn login">Login</a>
+            <a href="/welcome/" class="nav-btn register">Register</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome Home</h1>
+            <p>Connecting African heritage with modern opportunities. Discover your roots, embrace your culture, and build your future with us.</p>
+            <a href="/welcome/" class="cta-button">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h2>Roots to Realities</h2>
+            <p>Bridging the gap between heritage and opportunity</p>
+        </div>
+    </footer>
+
+
+</body>
+</html>

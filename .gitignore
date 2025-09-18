@@ -1,2 +1,41 @@
+# Virtual Environment
 env/
 env
+venv/
+.venv/
+
+# Environment Variables
+.env
+.env.local
+.env.production
+
+# Django
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+staticfiles/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Coverage
+.coverage
+htmlcov/
+
+# Node modules (if using frontend build tools)
+node_modules/
+
+# Temporary files
+*.tmp
+*.temp
