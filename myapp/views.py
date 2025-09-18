@@ -18,153 +18,20 @@ from django.contrib.auth.decorators import login_required
 from .models import Order, Customer, Ticket
 from .payfast_utils import payfast_signature, ip_in_trusted, payfast_host
 
-def home(request):
-    """Home page with navigation to login/register"""
-    return render(request, "home.html")
 
-def welcome(request):
-    """Welcome page with login and registration forms"""
-    if request.user.is_authenticated:
-        return redirect('index')
-    return render(request, "welcome.html")
 
-def user_login(request):
-    """Handle user login"""
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        
-        # Try to authenticate with username first, then email
-        user = authenticate(request, username=username, password=password)
-        
-        if user is None:
-            # Try to find user by email and authenticate
-            try:
-                user_obj = User.objects.get(email=username)
-                user = authenticate(request, username=user_obj.username, password=password)
-            except User.DoesNotExist:
-                user = None
-        
-        if user is not None:
-            login(request, user)
-            messages.success(request, f'Welcome back, {user.first_name or user.username}!')
-            return redirect('index')
-        else:
-            messages.error(request, 'Invalid username/email or password.')
-    
-    return redirect('welcome')
-
-def user_register(request):
-    """Handle user registration"""
-    if request.method == 'POST':
-        # Basic user information
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
-        
-        # Additional profile information
-        phone = request.POST.get('phone', '')
-        age = request.POST.get('age')
-        gender = request.POST.get('gender', 'prefer_not_to_say')
-        date_of_birth = request.POST.get('date_of_birth')
-        country = request.POST.get('country', 'ZA')
-        city = request.POST.get('city', '')
-        interests = request.POST.get('interests', '')
-        how_did_you_hear = request.POST.get('how_did_you_hear', '')
-        marketing_consent = request.POST.get('marketing_consent') == 'true'
-        
-        # Validation
-        if password1 != password2:
-            messages.error(request, 'Passwords do not match.')
-            return render(request, 'welcome.html')
-        
-        if len(password1) < 8:
-            messages.error(request, 'Password must be at least 8 characters long.')
-            return render(request, 'welcome.html')
-        
-        if User.objects.filter(username=username).exists():
-            messages.error(request, 'Username already exists.')
-            return render(request, 'welcome.html')
-        
-        if User.objects.filter(email=email).exists():
-            messages.error(request, 'Email already registered.')
-            return render(request, 'welcome.html')
-        
-        # Validate age if provided
-        if age:
-            try:
-                age = int(age)
-                if age < 13 or age > 120:
-                    messages.error(request, 'Please enter a valid age between 13 and 120.')
-                    return render(request, 'welcome.html')
-            except ValueError:
-                messages.error(request, 'Please enter a valid age.')
-                return render(request, 'welcome.html')
-        
-        # Validate date of birth if provided
-        if date_of_birth:
-            try:
-                from datetime import datetime
-                birth_date = datetime.strptime(date_of_birth, '%Y-%m-%d').date()
-                today = datetime.now().date()
-                calculated_age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
-                if calculated_age < 13:
-                    messages.error(request, 'You must be at least 13 years old to register.')
-                    return render(request, 'welcome.html')
-            except ValueError:
-                messages.error(request, 'Please enter a valid date of birth.')
-                return render(request, 'welcome.html')
-        
-        # Create user
-        try:
-            user = User.objects.create_user(
-                username=username,
-                email=email,
-                password=password1,
-                first_name=first_name,
-                last_name=last_name
-            )
-            
-            # Update the user profile (created automatically by signal)
-            profile = user.userprofile
-            profile.phone = phone
-            if age:
-                profile.age = age
-            profile.gender = gender
-            if date_of_birth:
-                profile.date_of_birth = birth_date
-            profile.country = country
-            profile.city = city
-            profile.interests = interests
-            profile.how_did_you_hear = how_did_you_hear
-            profile.marketing_consent = marketing_consent
-            profile.save()
-            
-            messages.success(request, 'Registration successful! Please log in.')
-            return render(request, 'welcome.html')
-        except Exception as e:
-            messages.error(request, f'Registration failed: {str(e)}')
-            return render(request, 'welcome.html')
-    
-    return redirect('welcome')
 
 def user_logout(request):
     """Handle user logout"""
     logout(request)
-    return redirect('home')
+    return redirect('index')
 
-@login_required
 def index(request):
     return render(request, "index.html")
 
-@login_required
 def zithulele(request):
     return render(request, "zithulele.html")
 
-@login_required
 def ticket_form(request):
     if request.method == 'POST':
         # Get form data

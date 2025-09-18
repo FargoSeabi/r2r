@@ -89,9 +89,6 @@
                     <span class="hidden sm:inline-flex text-sm text-slate-600">Welcome, {{ user.first_name|default:user.username }}!</span>
                     <a href="{% url 'logout' %}"
                         class="inline-flex px-4 py-2 rounded-full border border-red-200 text-red-700 hover:bg-red-50">Logout</a>
-                {% else %}
-                    <a href="{% url 'welcome' %}"
-                        class="hidden sm:inline-flex px-4 py-2 rounded-full border border-brand-200 text-brand-700 hover:bg-brand-50">Login</a>
                 {% endif %}
                 <a href="#marketplace"
                     class="inline-flex px-4 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-white shadow">Get
